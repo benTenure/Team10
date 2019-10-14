@@ -7,6 +7,16 @@
     "docs": "cd docs && gitbook serve",
     "docs:deploy": "bash ./deploy-docs.sh"
   },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "vuetify": "^1.5.18",
+    "vue-analytics": "^5.9.0",
+    "vue-router": "^3.0.1",
+    "vue-spinner": "^1.0.3",
+    "vuex": "^3.0.1",
+    "vuex-persistedstate": "^2.4.2",
+    "vuex-router-sync": "^5.0.0"
+  },
   "devDependencies": {
     "vue-cli": "^2.8.1"
   }
