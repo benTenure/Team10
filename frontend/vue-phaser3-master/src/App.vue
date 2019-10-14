@@ -1,12 +1,10 @@
 <template>
-  <Portal />
 </template>
 
 
 <script>
 export default {
-  name: 'App',
-  components: { Portal }
+  name: 'App'
 }
 </script>
 
