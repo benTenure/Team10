@@ -1,12 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import AmCharts from 'amcharts3'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
-Vue.use(AmCharts)
-Vue.use(Vuetify)
+import colors from 'vuetify/es5/util/colors'
+
+Vue.use(Vuetify, {
+  theme: {
+    primary: colors.green.darken1,
+    secondary: colors.red.lighten4,
+    accent: colors.indigo.base
+  }
+})
 
 Vue.use(Router)
 
