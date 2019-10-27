@@ -13,6 +13,7 @@
 
             try{
                 $this->conn = new PDO($this->dsn, $this->username, $this->password);
+                echo "Connected!";
             } catch (PDOException $error) {
                 echo 'Error.';
             }
