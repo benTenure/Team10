@@ -1,15 +1,23 @@
 <template>
   <div class='hello'>
     <h1>{{ msg }}</h1>
-    <v-btn class="mybutton">weed</v-btn>
-    <bar-graph></bar-graph>
+    <v-flex></v-flex>
+    <div class="chart">
+      <h2>Linechart</h2>
+      <basic-chart class="chart"></basic-chart>
+    </div>
+    <div class="chart">
+      <h2>Barchart</h2>
+      <bar-chart class="chart"></bar-chart>
+    </div>
   </div>
 </template>
 
 <script>
-import {Bar} from 'vue-chartjs'
+import BasicChart from './BasicChart.js'
+import BarChart from './BarChart.js'
 export default {
-  extends: {Bar},
+  components: {BasicChart, BarChart},
   name: 'home',
   data: () => ({
     msg: 'Team 10\'s 447 project template',
@@ -102,8 +110,11 @@ li {
 a {
   color: #42b983;
 }
-.mybutton {
-  color: black;
-  margin-left: -680px;
+.chart {
+  border-radius: 35px;
+  box-shadow: 0px 2px 15px rgba(25,25,25, .25);
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 25px;
 }
 </style>
