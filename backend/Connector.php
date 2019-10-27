@@ -1,5 +1,5 @@
 <?php
-    class CrimeData {
+    class Connector {
         /**
          * @var PDO
          */
