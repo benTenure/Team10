@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import AmCharts from 'amcharts3'
 import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(AmCharts)
 Vue.use(Vuetify)
