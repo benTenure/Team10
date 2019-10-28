@@ -2,6 +2,7 @@
   <div id="app">
     <router-view/>
     <img class="" src="./assets/static heatmap map.png">
+<!--    -->
   </div>
 </template>
 
