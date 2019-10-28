@@ -28,6 +28,10 @@ export default new Vuex.Store({
     updateCrimeframe (state, newStart, newEnd) {
       state.crimeframe.startDate = newStart
       state.crimeframe.endDate = newEnd
+    },
+    formatData (state) {
+      // Hopefully we will have already done this in the backend, but incase we havent...
+      console.log('formats data for charts/graphs')
     }
   },
   actions: {
