@@ -11,9 +11,19 @@
         <doughnut-chart class="chart"></doughnut-chart>
       </div>
       <div class="chart">
-        <h2>Barchart</h2>
+        <h2>Barchart w irrelevant trash data</h2>
         <bar-chart class="chart"></bar-chart>
       </div>
+      <div class="chart">
+        <h2>Map</h2>
+        <mapDataSet/>
+      </div>
+      <v-divider/>
+      <v-spacer></v-spacer>
+      <v-divider/>
+      <v-card>
+        <v-card-text>I just need some space to show map please css gods please</v-card-text>
+      </v-card>
     </v-flex>
   </div>
 </template>
@@ -22,16 +32,19 @@
 import BasicChart from './BasicChart.js'
 import BarChart from './BarChart.js'
 import DoughnutChart from './DoughnutChart.js'
+import MapDataSet from './Map'
 export default {
-  components: {BasicChart, BarChart, DoughnutChart},
+  components: {BasicChart, BarChart, DoughnutChart, MapDataSet},
   name: 'home',
   data: () => ({
     msg: 'Team 10\'s 447 project template',
     options: {
       responsive: true,
       maintainAspectRatio: false
-    }
-
+    },
+    zoom: 2,
+    center: [0, 0],
+    rotation: 0
   }),
   methods: {
     updateCrimefame () {
