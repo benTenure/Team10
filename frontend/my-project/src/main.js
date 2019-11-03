@@ -6,8 +6,11 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import store from './store/store'
+import VueLayers from 'vuelayers'
+import 'vuelayers/lib/style.css'
 
 Vue.use(Vuetify)
+Vue.use(VueLayers)
 
 Vue.config.productionTip = false
 
