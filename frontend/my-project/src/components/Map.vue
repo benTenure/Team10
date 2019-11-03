@@ -10,6 +10,7 @@
 
 <script>
 export default {
+  name: 'mapDataSet',
   data () {
     return {
       zoom: 2,

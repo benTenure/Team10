@@ -16,13 +16,7 @@
       </div>
       <div class="chart">
         <h2>Map</h2>
-        <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true" style="height: 400px">
-          <vl-view :zoom.sync="zoom" :center.sync="center" :rotation.sync="rotation" projection="EPSG:4326"></vl-view>
-
-          <vl-layer-tile>
-            <vl-source-osm></vl-source-osm>
-          </vl-layer-tile>
-        </vl-map>
+        <mapDataSet/>
       </div>
       <v-divider/>
       <v-spacer></v-spacer>
@@ -38,9 +32,9 @@
 import BasicChart from './BasicChart.js'
 import BarChart from './BarChart.js'
 import DoughnutChart from './DoughnutChart.js'
-import Map from './Map.vue'
+import MapDataSet from './Map'
 export default {
-  components: {BasicChart, BarChart, DoughnutChart, Map},
+  components: {BasicChart, BarChart, DoughnutChart, MapDataSet},
   name: 'home',
   data: () => ({
     msg: 'Team 10\'s 447 project template',
