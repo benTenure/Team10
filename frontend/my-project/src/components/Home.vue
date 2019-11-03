@@ -15,7 +15,29 @@
         <bar-chart class="chart"></bar-chart>
       </div>
     </v-flex>
+    <v-btn class="ma-2" color="primary">BARGRAPH
+      <v-icon dark right>mdi-chart-bar</v-icon>
+    </v-btn>
+    <v-btn class="ma-2" color="purple darken-3" dark>
+      <v-icon dark left>mdi-chart-line</v-icon>LINE
+    </v-btn>
+    <div></div>
+    <v-btn class="ma-2" color="green" dark>
+      <v-icon dark left>mdi-chart-pie</v-icon>PIE
+    </v-btn>
+    <v-btn class="ma-2" color="red" dark>PINMAP
+      <v-icon dark right>mdi-map</v-icon>
+    </v-btn>
+    <div></div>
+    <v-btn class="ma-2" dark>
+      <v-icon dark left>mdi-chart-histogram</v-icon>
+      Histograph
+    </v-btn>
+    <v-btn class="ma-2" color="orange darken-2" dark>
+      <v-icon dark left>mdi-help</v-icon>Predictions
+    </v-btn>
   </div>
+
 </template>
 
 <script>
