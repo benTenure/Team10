@@ -139,6 +139,7 @@
       <section id="PieChart">
       <div class="chart">
         <h2>Weapon Distribution Pie chart</h2>
+        <h4>{{weaponTypes}} wa</h4>
         <doughnut-chart class="chart"></doughnut-chart>
       </div>
       </section>
@@ -183,6 +184,7 @@ export default {
       responsive: true,
       maintainAspectRatio: false
     },
+    weaponTypes: this.$store.weaponTypes,
     zoom: 2,
     center: [0, 0],
     rotation: 0

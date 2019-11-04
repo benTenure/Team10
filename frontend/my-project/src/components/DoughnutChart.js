@@ -1,10 +1,9 @@
 import {Doughnut} from 'vue-chartjs'
-
 export default {
   extends: Doughnut,
   mounted () {
     this.renderChart({
-      labels: ['NA', 'KNIFE', 'FIREARM'],
+      labels: this.$store.weaponTypes,
       datasets: [
         {
           backgroundColor: [
