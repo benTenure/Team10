@@ -3,7 +3,7 @@
     <h1>{{ msg }}</h1>
     <!--  Start of nick's timeframe (ctrl-frwdslash makes comment)-->
     <div class="text-left">
-      <v-btn class="ma-2" color="blue" absolute="true" dark>FILTERS
+      <v-btn class="ma-2" color="blue" dark>FILTERS
       </v-btn>
       <v-flex >
         <v-menu
@@ -29,13 +29,15 @@
       </v-flex>
 
       <v-flex >
-        <v-dialog
-          ref="dialog"
-          v-model="modal"
-          :return-value.sync="date"
+        <v-menu
+          v-model="menu2"
+          :close-on-content-click="true"
+          :nudge-right="40"
           lazy
+          transition="scale-transition"
+          offset-y
           full-width
-          width="290px"
+          min-width="280px"
         >
           <template v-slot:activator="{ on }">
             <v-text-field
@@ -45,12 +47,12 @@
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="date" scrollable>
+          <v-date-picker v-model="date" @input="menu2 = false">
             <v-spacer></v-spacer>
             <v-btn flat color="blue" @click="modal = false">Cancel</v-btn>
             <v-btn flat color="blue" @click="$refs.dialog.save(date)">OK</v-btn>
           </v-date-picker>
-        </v-dialog>
+        </v-menu>
       </v-flex>
     </div>
     <v-row>
