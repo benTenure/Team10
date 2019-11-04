@@ -1,6 +1,120 @@
 <template>
   <div>
     <h1>{{ msg }}</h1>
+    <!--  Start of nick's timeframe (ctrl-frwdslash makes comment)-->
+    <div class="text-left">
+      <v-btn class="ma-2" color="blue" absolute="true" dark>FILTERS
+      </v-btn>
+      <v-flex xs12 sm6 md4>
+        <v-menu
+          v-model="menu2"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          lazy
+          transition="scale-transition"
+          offset-y
+          full-width
+          min-width="280px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="date"
+              label="From"
+              prepend-icon="event"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+        </v-menu>
+      </v-flex>
+      <v-spacer></v-spacer>
+      <v-flex xs12 sm6 md4>
+        <v-dialog
+          ref="dialog"
+          v-model="modal"
+          :return-value.sync="date"
+          lazy
+          full-width
+          width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="date"
+              label="To"
+              prepend-icon="event"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="date" scrollable>
+            <v-spacer></v-spacer>
+            <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
+            <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+          </v-date-picker>
+        </v-dialog>
+      </v-flex>
+    </div>
+    <v-row>
+      <v-col cols="11" sm="5">
+        <v-menu
+          ref="menu"
+          v-model="menu2"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          :return-value.sync="time"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="time"
+              label="Picker in menu"
+              prepend-icon="access_time"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-time-picker
+            v-if="menu2"
+            v-model="time"
+            full-width
+            @click:minute="$refs.menu.save(time)"
+          ></v-time-picker>
+        </v-menu>
+      </v-col>
+      <v-spacer></v-spacer>
+      <v-col cols="11" sm="5">
+        <v-dialog
+          ref="dialog"
+          v-model="modal2"
+          :return-value.sync="time"
+          persistent
+          width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="time"
+              label="Picker in dialog"
+              prepend-icon="access_time"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-time-picker
+            v-if="modal2"
+            v-model="time"
+            full-width
+          >
+            <v-spacer></v-spacer>
+            <v-btn text color="primary" @click="modal2 = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="$refs.dialog.save(time)">OK</v-btn>
+          </v-time-picker>
+        </v-dialog>
+      </v-col>
+    </v-row>
     <v-flex>
       <div class="chart">
         <h2>Linechart example with fake raw data; crimes by district over</h2>

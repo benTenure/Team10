@@ -22,4 +22,5 @@ new Vue({
   store,
   components: { App },
   template: '<App/>'
+//  adding the data for clock picker
 })
