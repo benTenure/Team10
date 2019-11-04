@@ -57,7 +57,7 @@
         <v-menu
           ref="menu"
           v-model="menu2"
-          :close-on-content-click="true"
+          :close-on-content-click="false"
           :nudge-right="40"
           :return-value.sync="time"
           transition="scale-transition"
