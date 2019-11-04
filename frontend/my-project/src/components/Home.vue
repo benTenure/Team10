@@ -49,8 +49,6 @@
           </template>
           <v-date-picker v-model="date" @input="menu2 = false">
             <v-spacer></v-spacer>
-            <v-btn flat color="blue" @click="modal = false">Cancel</v-btn>
-            <v-btn flat color="blue" @click="$refs.dialog.save(date)">OK</v-btn>
           </v-date-picker>
         </v-menu>
       </v-flex>
