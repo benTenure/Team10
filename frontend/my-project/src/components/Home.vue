@@ -5,10 +5,10 @@
     <div class="text-left">
       <v-btn class="ma-2" color="blue" absolute="true" dark>FILTERS
       </v-btn>
-      <v-flex xs12 sm6 md4>
+      <v-flex >
         <v-menu
           v-model="menu2"
-          :close-on-content-click="false"
+          :close-on-content-click="true"
           :nudge-right="40"
           lazy
           transition="scale-transition"
@@ -19,8 +19,7 @@
           <template v-slot:activator="{ on }">
             <v-text-field
               v-model="date"
-              label="From"
-              prepend-icon="event"
+              label="Date From"
               readonly
               v-on="on"
             ></v-text-field>
@@ -28,8 +27,8 @@
           <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
         </v-menu>
       </v-flex>
-      <v-spacer></v-spacer>
-      <v-flex xs12 sm6 md4>
+
+      <v-flex >
         <v-dialog
           ref="dialog"
           v-model="modal"
@@ -41,26 +40,24 @@
           <template v-slot:activator="{ on }">
             <v-text-field
               v-model="date"
-              label="To"
-              prepend-icon="event"
+              label="Date To"
               readonly
               v-on="on"
             ></v-text-field>
           </template>
           <v-date-picker v-model="date" scrollable>
             <v-spacer></v-spacer>
-            <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+            <v-btn flat color="blue" @click="modal = false">Cancel</v-btn>
+            <v-btn flat color="blue" @click="$refs.dialog.save(date)">OK</v-btn>
           </v-date-picker>
         </v-dialog>
       </v-flex>
     </div>
     <v-row>
-      <v-col cols="11" sm="5">
         <v-menu
           ref="menu"
           v-model="menu2"
-          :close-on-content-click="false"
+          :close-on-content-click="true"
           :nudge-right="40"
           :return-value.sync="time"
           transition="scale-transition"
@@ -71,8 +68,7 @@
           <template v-slot:activator="{ on }">
             <v-text-field
               v-model="time"
-              label="Picker in menu"
-              prepend-icon="access_time"
+              label="Time From"
               readonly
               v-on="on"
             ></v-text-field>
@@ -84,9 +80,7 @@
             @click:minute="$refs.menu.save(time)"
           ></v-time-picker>
         </v-menu>
-      </v-col>
       <v-spacer></v-spacer>
-      <v-col cols="11" sm="5">
         <v-dialog
           ref="dialog"
           v-model="modal2"
@@ -97,8 +91,7 @@
           <template v-slot:activator="{ on }">
             <v-text-field
               v-model="time"
-              label="Picker in dialog"
-              prepend-icon="access_time"
+              label="Time To"
               readonly
               v-on="on"
             ></v-text-field>
@@ -109,11 +102,10 @@
             full-width
           >
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="modal2 = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="$refs.dialog.save(time)">OK</v-btn>
+            <v-btn text color="blue" @click="modal2 = false">Cancel</v-btn>
+            <v-btn text color="blue" @click="$refs.dialog.save(time)">OK</v-btn>
           </v-time-picker>
         </v-dialog>
-      </v-col>
     </v-row>
     <v-flex>
       <div class="chart">
