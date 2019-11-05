@@ -139,7 +139,6 @@
       <section id="PieChart">
       <div class="chart">
         <h2>Weapon Distribution Pie chart</h2>
-        <h4>{{weaponTypes}} wa</h4>
         <doughnut-chart class="chart"></doughnut-chart>
       </div>
       </section>
@@ -184,11 +183,13 @@ export default {
       responsive: true,
       maintainAspectRatio: false
     },
-    weaponTypes: this.$store.weaponTypes,
     zoom: 2,
     center: [0, 0],
     rotation: 0
   }),
+  created () {
+    this.$store.mutations.updateCrimeframe('2019-10-03', '2019-10-10')
+  },
   methods: {
     updateCrimefame () {
       console.log('crimeframe updated')

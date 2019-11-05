@@ -3,7 +3,7 @@ export default {
   extends: Doughnut,
   mounted () {
     this.renderChart({
-      labels: this.$store.weaponTypes,
+      labels: this.$store.state.weaponTypes,
       datasets: [
         {
           backgroundColor: [
