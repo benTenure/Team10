@@ -81,11 +81,10 @@
           ></v-time-picker>
         </v-menu>
       <v-spacer></v-spacer>
-        <v-dialog
+        <v-menu
           ref="dialog"
           v-model="modal2"
           :return-value.sync="time"
-          persistent
           width="290px"
         >
           <template v-slot:activator="{ on }">
@@ -105,7 +104,7 @@
             <v-btn text color="blue" @click="modal2 = false">Cancel</v-btn>
             <v-btn text color="blue" @click="$refs.dialog.save(time)">OK</v-btn>
           </v-time-picker>
-        </v-dialog>
+        </v-menu>
     </v-row>
     <v-flex>
       <div class="chart">
