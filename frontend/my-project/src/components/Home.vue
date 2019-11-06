@@ -138,6 +138,8 @@ export default {
     }
 
   }),
+  menu2: 'modal2',
+  time: 'menu',
   methods: {
     updateCrimefame () {
       console.log('crimeframe updated')
