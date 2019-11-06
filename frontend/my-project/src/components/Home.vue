@@ -151,6 +151,8 @@ export default {
     center: [0, 0],
     rotation: 0
   }),
+  menu2: 'modal2',
+  time: 'menu',
   methods: {
     updateCrimefame () {
       console.log('crimeframe updated')
