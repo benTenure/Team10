@@ -132,8 +132,8 @@
     <v-flex>
       <section id="LineChart">
       <div class="chart">
-        <h2>Linechart example with fake raw data; crimes by district over</h2>
-        <basic-chart class="chart"></basic-chart>
+        <h2>Linechart example with total crimes by time of day</h2>
+        <line-graph class="chart"></line-graph>
       </div>
       </section>
       <section id="PieChart">
@@ -144,7 +144,7 @@
       </section>
       <section id="BarChart">
       <div class="chart" >
-        <h2>Barchart w irrelevant trash data</h2>
+        <h2>Barchart based on district</h2>
         <bar-chart class="chart"></bar-chart>
       </div>
       </section>
@@ -162,12 +162,12 @@
 </template>
 
 <script>
-import BasicChart from './BasicChart.js'
+import LineGraph from './LineGraph.js'
 import BarChart from './BarChart.js'
 import DoughnutChart from './DoughnutChart.js'
 import MapDataSet from './Map'
 export default {
-  components: {BasicChart, BarChart, DoughnutChart, MapDataSet},
+  components: {LineGraph, BarChart, DoughnutChart, MapDataSet},
   name: 'home',
   date: '',
   menu2: '',
@@ -188,7 +188,7 @@ export default {
     rotation: 0
   }),
   created () {
-    this.$store.mutations.updateCrimeframe('2019-10-03', '2019-10-10')
+    // this.$store.commit(updateCrimeframe,'2019-10-03', '2019-10-10')
   },
   methods: {
     updateCrimefame () {

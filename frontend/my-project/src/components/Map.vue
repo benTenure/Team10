@@ -13,8 +13,8 @@ export default {
   name: 'mapDataSet',
   data () {
     return {
-      zoom: 2,
-      center: [0, 0],
+      zoom: 11.5,
+      center: ['-76.6566890000', '39.3265610000'],
       rotation: 0
     }
   }

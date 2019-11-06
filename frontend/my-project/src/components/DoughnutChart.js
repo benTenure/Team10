@@ -3,7 +3,7 @@ export default {
   extends: Doughnut,
   mounted () {
     this.renderChart({
-      labels: this.$store.state.weaponTypes,
+      labels: this.$store.state.doughnutGraph.dataFilterTypes,
       datasets: [
         {
           backgroundColor: [
@@ -13,7 +13,7 @@ export default {
             'rgba(155, 89, 182, .8)'
           ],
           borderWidth: 0,
-          data: [80, 20, 55]
+          data: this.$store.state.doughnutGraph.amountArray
         }
       ]
     }, {responsive: true, maintainAspectRatio: false})
