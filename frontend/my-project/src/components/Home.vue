@@ -130,28 +130,33 @@
     </v-row>
 
     <v-flex>
+      <section id="LineChart">
       <div class="chart">
         <h2>Linechart example with fake raw data; crimes by district over</h2>
         <basic-chart class="chart"></basic-chart>
       </div>
+      </section>
+      <section id="PieChart">
       <div class="chart">
         <h2>Weapon Distribution Pie chart</h2>
         <doughnut-chart class="chart"></doughnut-chart>
       </div>
-      <div class="chart">
+      </section>
+      <section id="BarChart">
+      <div class="chart" >
         <h2>Barchart w irrelevant trash data</h2>
         <bar-chart class="chart"></bar-chart>
       </div>
-      <div class="chart">
+      </section>
+      <section id="Map">
+      <div class="chart" >
         <h2>Map</h2>
         <mapDataSet/>
       </div>
+      </section>
       <v-divider/>
       <v-spacer></v-spacer>
       <v-divider/>
-      <v-card>
-        <v-card-text>I just need some space to show map please css gods please</v-card-text>
-      </v-card>
     </v-flex>
   </div>
 </template>
@@ -192,17 +197,17 @@ export default {
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+/*ul {*/
+/*  list-style-type: none;*/
+/*  padding: 0;*/
+/*}*/
+/*li {*/
+/*  display: inline-block;*/
+/*  margin: 0 10px;*/
+/*}*/
+/*a {*/
+/*  color: #42b983;*/
+/*}*/
 /*.container {*/
 /*  max-width: 800px;*/
 /*  margin:  0 auto;*/
@@ -220,5 +225,30 @@ a {
   margin-top: 0;
   padding: 15px 0;
   border-bottom: 1px solid #aeb1b3;
+}
+/*  Start of nick's attempt to put it in a thingy*/
+#LineChart{
+  position: absolute;
+  right: 0;
+  top: 600px;
+  width: 33%;
+}
+#BarChart{
+  position: absolute;
+  right: 33%;
+  top: 600px;
+  width: 33%;
+}
+#PieChart{
+  position: absolute;
+  left: 0;
+  top: 600px;
+  width: 33%;
+}
+#Map {
+  position: absolute;
+  left: 0;
+  top: 125px;
+  width: 100%
 }
 </style>
