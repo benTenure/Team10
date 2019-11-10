@@ -85,7 +85,7 @@
             </v-menu>
             <v-spacer></v-spacer>
             <v-menu
-              ref="dialog"
+              ref="menu"
               v-model="modal2"
               :return-value.sync="time"
             >
@@ -104,10 +104,11 @@
               >
                 <v-spacer></v-spacer>
                 <v-btn text color="blue" @click="modal2 = false">Cancel</v-btn>
-                <v-btn text color="blue" @click="$refs.dialog.save(time)">OK</v-btn>
+                <v-btn text color="blue" @click="$refs.menu.save(time)">OK</v-btn>
               </v-time-picker>
             </v-menu>
           </v-row>
+<!--          start of checkboxes-->
           <v-card-title>Select Filter</v-card-title>
           <v-divider></v-divider>
           <v-card-text style="height: 300px;">
@@ -163,15 +164,16 @@ import MapDataSet from './Map'
 export default {
   components: {BasicChart, BarChart, DoughnutChart, MapDataSet},
   name: 'home',
-  menu2: '',
   date: '',
-
+  menu2: '',
+  modal2: '',
+  time: '',
   data: () => ({
     msg: 'Team 10\'s 447 project template',
-    time: '',
-    modal2: '',
+    //  for checkboxes
     dialogm1: '',
     dialog: false,
+    //  end of data for checkboxes
     options: {
       responsive: true,
       maintainAspectRatio: false
