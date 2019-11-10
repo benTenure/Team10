@@ -37,7 +37,7 @@
           transition="scale-transition"
           offset-y
           full-width
-          min-width="280px"
+          max-width="280px"
         >
           <template v-slot:activator="{ on }">
             <v-text-field
@@ -141,8 +141,13 @@ import MapDataSet from './Map'
 export default {
   components: {BasicChart, BarChart, DoughnutChart, MapDataSet},
   name: 'home',
+  menu2: '',
+  date: '',
+
   data: () => ({
     msg: 'Team 10\'s 447 project template',
+    time: '',
+    modal2: '',
     options: {
       responsive: true,
       maintainAspectRatio: false
@@ -151,8 +156,6 @@ export default {
     center: [0, 0],
     rotation: 0
   }),
-  menu2: 'modal2',
-  time: 'menu',
   methods: {
     updateCrimefame () {
       console.log('crimeframe updated')
