@@ -8,6 +8,11 @@ OR
 
 php get.php BetweenDates param1 param2
 
+OR
+
+php get.php BetweenBoth param1 param2 param3 param4
+where params 1 and 2 are times and params 3 and 4 are dates.
+
 */
 
 
@@ -26,6 +31,8 @@ if($argv[1] = 'BetweenTimes'){
     $result = $data->betweenTimes($argv[2], $argv[3]);
 } else if($argv[1] = 'BetweenDates'){
     $result = $data->betweenDates($argv[2], $argv[3]);
+} else if($argv[1] = 'BetweenBoth'){
+    $result = $data->betweenBoth($argv[2], $argv[3], $argv[4], $argv[5]);
 }
 
 $num = $result->rowCount();

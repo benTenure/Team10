@@ -12,7 +12,7 @@ class dataPoint
 
     public function betweenTimes($time1, $time2)
     {
-        $query = 'USE Team10;
+        $query = 'USE team10;
 			SELECT
 				*
 			FROM
@@ -26,9 +26,26 @@ class dataPoint
         return $prepare;
     }
 
+    public function betweenBoth($time1, $time2, $date1, $date2)
+    {
+        $query = 'USE team10;
+			SELECT
+				*
+			FROM
+				crime_instance
+			WHERE
+				crimetime BETWEEN ' . $time1 . ' AND ' . $time2 .
+            ' AND crimedate ' . $date1 . ' BETWEEN ' . $date2 .
+            ';';
+
+        $prepare = $this->connection->prepare($query);
+        $prepare->execute();
+        return $prepare;
+    }
+
     public function betweenDates($date1, $date2)
     {
-        $query = 'USE Team10;
+        $query = 'USE team10;
 			SELECT
 				*
 			FROM
