@@ -2,12 +2,6 @@
   <div>
     <h1>{{ msg }}</h1>
     <v-flex>
-      <div>
-        <v-date-picker></v-date-picker>
-        <v-icon>
-          mdi-arrow-down
-        </v-icon>
-      </div>
       <div class="chart">
         <h2>Linechart example with fake raw data; crimes by district over</h2>
         <basic-chart class="chart"></basic-chart>
