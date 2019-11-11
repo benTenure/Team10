@@ -113,10 +113,10 @@
           <v-divider></v-divider>
           <v-card-text style="height: 300px;">
             <v-radio-group v-model="dialogm1" column>
-              <v-checkbox label="Colorblind Mode" value="colorblind"></v-checkbox>
-              <v-checkbox label="Show Weapons" value="weapons"></v-checkbox>
-              <v-checkbox label="Show Crime Codes" value="crimeCodes"></v-checkbox>
-              <v-checkbox label="Show Locations" value="weapons"></v-checkbox>
+              <v-radio label="Colorblind Mode" value="colorblind"></v-radio>
+              <v-radio label="Show Weapons" value="weapons"></v-radio>
+              <v-radio label="Show Crime Codes" value="crimeCodes"></v-radio>
+              <v-radio label="Show Locations" value="weapons"></v-radio>
             </v-radio-group>
           </v-card-text>
           <v-divider></v-divider>
