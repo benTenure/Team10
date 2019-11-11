@@ -5,11 +5,20 @@
     <v-row justify="center">
       <v-dialog v-model="dialog" scrollable max-width="250px">
         <template v-slot:activator="{ on }">
-          <v-btn color="blue darken-2" dark v-on="on">Filters</v-btn>
+          <v-btn color="yellow darken-3" dark>Colorblind Mode
+            <i class="material-icons">
+              remove_red_eye
+            </i>
+          </v-btn>
+          <v-btn color="blue darken-2" dark v-on="on">Filters
+            <i class="material-icons">
+              filter_list
+            </i>
+          </v-btn>
         </template>
         <v-card>
           <div class="text-left">
-            <v-flex >
+            <v-flex>
               <v-menu
                 v-model="menu2"
                 :close-on-content-click="true"
@@ -113,10 +122,9 @@
           <v-divider></v-divider>
           <v-card-text style="height: 300px;">
             <v-radio-group v-model="dialogm1" column>
-              <v-checkbox label="Colorblind Mode" value="colorblind"></v-checkbox>
-              <v-checkbox label="Show Weapons" value="weapons"></v-checkbox>
-              <v-checkbox label="Show Crime Codes" value="crimeCodes"></v-checkbox>
-              <v-checkbox label="Show Locations" value="weapons"></v-checkbox>
+              <v-radio label="Show Weapons" value="weapons"></v-radio>
+              <v-radio label="Show Crime Codes" value="crimeCodes"></v-radio>
+              <v-radio label="Show Locations" value="locations"></v-radio>
             </v-radio-group>
           </v-card-text>
           <v-divider></v-divider>
