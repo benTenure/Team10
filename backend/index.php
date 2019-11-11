@@ -36,7 +36,7 @@ $data = new dataPoint($connect);
 */
 
 //Right now we are only going to use between both
-$result = $data->betweenBoth($_GET["timeBefore"], $_GET["timeAfter"], $_GET["dateBefore"], $_GET["dateAfter"]);
+$result = $data->betweenBoth($_GET["startTime"], $_GET["endTime"], $_GET["startDate"], $_GET["endDate"]);
 
 $num = $result->rowCount();
 $itemList['data'] = array();

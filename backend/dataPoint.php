@@ -35,7 +35,7 @@ class dataPoint
 				crime_instance
 			WHERE
 				crimetime BETWEEN ' . $time1 . ' AND ' . $time2 .
-            ' AND crimedate ' . $date1 . ' BETWEEN ' . $date2 .
+            ' AND crimedate BETWEEN' . $date1 . ' AND ' . $date2 .
             ';';
 
         $prepare = $this->connection->prepare($query);
