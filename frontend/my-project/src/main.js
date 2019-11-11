@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css' // Ensure you are using css-loader
 import store from './store/store'
 import VueLayers from 'vuelayers'
 import 'vuelayers/lib/style.css'
