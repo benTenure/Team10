@@ -1,17 +1,14 @@
 <?php
 
-/*Run with
+/*
 
-php get.php BetweenTimes param1 param2
+Parameters are:
+timeBefore
+timeAfter
+dateBefore
+dateAfter
 
-OR
-
-php get.php BetweenDates param1 param2
-
-OR
-
-php get.php BetweenBoth param1 param2 param3 param4
-where params 1 and 2 are times and params 3 and 4 are dates.
+Later we might do an 'action' parameter for filter type
 
 */
 
@@ -27,13 +24,19 @@ $connect = $connector->connect();
 
 $data = new dataPoint($connect);
 
-if($argv[1] = 'BetweenTimes'){
-    $result = $data->betweenTimes($argv[2], $argv[3]);
-} else if($argv[1] = 'BetweenDates'){
-    $result = $data->betweenDates($argv[2], $argv[3]);
-} else if($argv[1] = 'BetweenBoth'){
-    $result = $data->betweenBoth($argv[2], $argv[3], $argv[4], $argv[5]);
+/* This segment may be added later for filters, or I might do a more general query
+
+ * if($_GET["action"] = 'BetweenTimes'){
+    $result = $data->betweenTimes($_GET["timeBefore"], $_GET["timeAfter"]);
+} else if($_GET["action"] = 'BetweenDates'){
+    $result = $data->betweenDates($_GET["dateBefore"], $_GET["dateAfter"]);
+} else if($_GET["action"] = 'BetweenBoth'){
+    $result = $data->betweenBoth($_GET["timeBefore"], $_GET["timeAfter"], $_GET["dateBefore"], $_GET["dateAfter"]);
 }
+*/
+
+//Right now we are only going to use between both
+$result = $data->betweenBoth($_GET["timeBefore"], $_GET["timeAfter"], $_GET["dateBefore"], $_GET["dateAfter"]);
 
 $num = $result->rowCount();
 $itemList['data'] = array();
