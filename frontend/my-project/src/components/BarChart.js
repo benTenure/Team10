@@ -14,12 +14,12 @@ export default {
     this.gradient.addColorStop(1, 'rgba(145, 67, 204, 0.46)') // show this color at 100%
 
     this.renderChart({
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      labels: this.$store.state.barGraph.dataFilterTypes,
       datasets: [
         {
-          label: 'Data One',
+          label: this.$store.state.barGraph.dataFilter,
           backgroundColor: this.gradient,
-          data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+          data: this.$store.state.barGraph.amountArray
         }
       ]
     }, {responsive: true, maintainAspectRatio: false})
