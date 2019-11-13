@@ -20,23 +20,23 @@
           <div class="text-left">
             <v-flex >
               <v-menu>
-                v-model="menu2"
-                :close-on-content-click="true"
-                :nudge-right="40"
-                lazy
-                transition="scale-transition"
-                offset-y
-                full-width
-                min-width="280px"
+<!--                v-model="menu2"-->
+<!--                :close-on-content-click="true"-->
+<!--                :nudge-right="40"-->
+<!--                lazy-->
+<!--                transition="scale-transition"-->
+<!--                offset-y-->
+<!--                full-width-->
+<!--                min-width="280px"-->
                 <template v-slot:activator="{ on }">
                   <v-text-field
-                    v-model="date"
+                    v-model="date1"
                     label="Date From"
                     readonly
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                <v-date-picker v-model="date1" @input="menu2 = false"></v-date-picker>
               </v-menu>
             </v-flex>
 
@@ -53,13 +53,13 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
-                    v-model="date"
+                    v-model="date2"
                     label="Date To"
                     readonly
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" @input="menu2 = false">
+                <v-date-picker v-model="date2" @input="menu2 = false">
                   <v-spacer></v-spacer>
                 </v-date-picker>
               </v-menu>
@@ -88,7 +88,7 @@
                 v-if="menu2"
                 v-model="time"
                 full-width
-                @click:minute="$refs.menu.save(time)"
+                @click:minute="$refs.menu2.save(time)"
               ></v-time-picker>
             </v-menu>
             <v-spacer></v-spacer>
@@ -176,7 +176,8 @@ import MapDataSet from './Map'
 export default {
   components: {BasicChart, BarChart, DoughnutChart, MapDataSet},
   name: 'home',
-  date: '',
+  date1: '',
+  date2: '',
   menu2: '',
   modal2: '',
   time: '',
