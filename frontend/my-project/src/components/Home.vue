@@ -138,33 +138,45 @@
     </v-row>
 
     <v-flex>
-      <section id="LineChart">
-      <div class="chart">
-        <h2>Linechart example with total crimes by time of day</h2>
-        <line-graph class="chart"></line-graph>
-      </div>
-      </section>
-      <section id="PieChart">
-      <div class="chart">
-        <h2>Weapon Distribution Pie chart</h2>
-        <doughnut-chart class="chart"></doughnut-chart>
-      </div>
-      </section>
-      <section id="BarChart">
-      <div class="chart" >
-        <h2>Barchart based on district</h2>
-        <bar-chart class="chart"></bar-chart>
-      </div>
-      </section>
-      <section id="Map">
-      <div class="chart" >
-        <h2>Map</h2>
-        <mapDataSet/>
-      </div>
-      </section>
+      <v-item-group
+        :mandatory = "mandatory"
+      >
+        <v-item v-slot:default="{ active, toggle }">
+          <section id="LineChart">
+          <div class="chart">
+            <h2>Linechart example with total crimes by time of day</h2>
+            <line-graph class="chart"></line-graph>
+          </div>
+          </section>
+        </v-item>
+        <v-item v-slot:default="{ active, toggle }">
+          <section id="PieChart">
+          <div class="chart">
+            <h2>Weapon Distribution Pie chart</h2>
+            <doughnut-chart class="chart"></doughnut-chart>
+          </div>
+          </section>
+        </v-item>
+        <v-item v-slot:default="{ active, toggle }">
+          <section id="BarChart">
+          <div class="chart" >
+            <h2>Barchart based on district</h2>
+            <bar-chart class="chart"></bar-chart>
+          </div>
+          </section>
+        </v-item>
+        <v-item v-slot:default="{ active, toggle }">
+          <section id="Map">
+            <div class="chart" >
+              <h2>Map</h2>
+              <mapDataSet/>
+            </div>
+          </section>
+        </v-item>
       <v-divider/>
       <v-spacer></v-spacer>
       <v-divider/>
+      </v-item-group>
     </v-flex>
   </div>
 </template>
