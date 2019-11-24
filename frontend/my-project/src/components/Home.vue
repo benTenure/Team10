@@ -5,7 +5,7 @@
     <div justify="center">
       <v-dialog v-model="dialog" scrollable max-width="250px">
         <template v-slot:activator="{ on }">
-          <v-btn color="yellow darken-3" dark>Colorblind Mode
+          <v-btn color="yellow darken-3" dark onclick="document.body.style.backgroundColor = 'orange';" >Colorblind Mode
             <i class="material-icons">
               remove_red_eye
             </i>
