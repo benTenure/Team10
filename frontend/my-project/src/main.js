@@ -9,11 +9,20 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css' // Ensure
 import store from './store/store'
 import VueLayers from 'vuelayers'
 import 'vuelayers/lib/style.css'
+import axios from 'axios'
 
 Vue.use(Vuetify)
 Vue.use(VueLayers)
 
 Vue.config.productionTip = false
+
+Vue.use({
+  install (Vue) {
+    Vue.prototype.$api = axios.create({
+      baseURL: 'http://54.166.56.44'
+    })
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({
