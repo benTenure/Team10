@@ -7,6 +7,7 @@ const state = {
   // universal timeframe (research a good default)
   chartExampleData: [
     {
+      'id': 0,
       'crimedate': '2019-10-05T00:00:00.000',
       'crimetime': '07:00:00',
       'crimecode': '6G',
@@ -17,12 +18,13 @@ const state = {
       'post': '513',
       'district': 'NORTHERN',
       'neighborhood': 'HARWOOD',
-      'longitude': '-76.6094760000',
-      'latitude': '39.3230580000',
+      'longitude': -76.6094760000,
+      'latitude': 39.3230580000,
       'premise': 'RESTAURANT',
       'total_incidents': '1'
     },
     {
+      'id': 1,
       'crimedate': '2019-10-05T00:00:00.000',
       'crimetime': '22:00:00',
       'crimecode': '5A',
@@ -33,13 +35,14 @@ const state = {
       'post': '741',
       'district': 'WESTERN',
       'neighborhood': 'EASTERWOOD',
-      'longitude': '-76.6502290000',
-      'latitude': '39.3096180000',
+      'longitude': -76.6502290000,
+      'latitude': 39.3096180000,
       'premise': 'ROW/TOWNHOUSE-OCC',
       'vri_name1': 'Western',
       'total_incidents': '1'
     },
     {
+      'id': 2,
       'crimedate': '2019-10-05T00:00:00.000',
       'crimetime': '20:00:00',
       'crimecode': '4E',
@@ -50,12 +53,13 @@ const state = {
       'post': '612',
       'district': 'NORTHWEST',
       'neighborhood': 'PARK CIRCLE',
-      'longitude': '-76.6566890000',
-      'latitude': '39.3265610000',
+      'longitude': -76.6566890000,
+      'latitude': 39.3265610000,
       'premise': 'ROW/TOWNHOUSE-OCC',
       'total_incidents': '1'
     },
     {
+      'id': 3,
       'crimedate': '2019-10-04T00:00:00.000',
       'crimetime': '06:00:00',
       'crimecode': '6G',
@@ -66,12 +70,13 @@ const state = {
       'post': '513',
       'district': 'NORTHERN',
       'neighborhood': 'HARWOOD',
-      'longitude': '-76.6094760000',
-      'latitude': '39.3230580000',
+      'longitude': -76.6004760000,
+      'latitude': 39.3200580000,
       'premise': 'RESTAURANT',
       'total_incidents': '1'
     },
     {
+      'id': 4,
       'crimedate': '2019-10-07T00:00:00.000',
       'crimetime': '22:00:00',
       'crimecode': '5A',
@@ -82,13 +87,14 @@ const state = {
       'post': '741',
       'district': 'WESTERN',
       'neighborhood': 'EASTERWOOD',
-      'longitude': '-76.6502290000',
-      'latitude': '39.3096180000',
+      'longitude': -76.6502290000,
+      'latitude': 39.3096180000,
       'premise': 'ROW/TOWNHOUSE-OCC',
       'vri_name1': 'Western',
       'total_incidents': '1'
     },
     {
+      'id': 5,
       'crimedate': '2019-10-08T00:00:00.000',
       'crimetime': '20:00:00',
       'crimecode': '4E',
@@ -99,12 +105,13 @@ const state = {
       'post': '612',
       'district': 'NORTHWEST',
       'neighborhood': 'PARK CIRCLE',
-      'longitude': '-76.6566890000',
-      'latitude': '39.3265610000',
+      'longitude': -76.6768900000,
+      'latitude': 39.3285610000,
       'premise': 'ROW/TOWNHOUSE-OCC',
       'total_incidents': '1'
     },
     {
+      'id': 6,
       'crimedate': '2019-10-07T00:00:00.000',
       'crimetime': '16:00:00',
       'crimecode': '6G',
@@ -115,12 +122,13 @@ const state = {
       'post': '513',
       'district': 'NORTHERN',
       'neighborhood': 'HARWOOD',
-      'longitude': '-76.6094760000',
-      'latitude': '39.3230580000',
+      'longitude': -76.6394760000,
+      'latitude': 39.3260580000,
       'premise': 'RESTAURANT',
       'total_incidents': '1'
     },
     {
+      'id': 7,
       'crimedate': '2019-10-06T00:00:00.000',
       'crimetime': '23:00:00',
       'crimecode': '5A',
@@ -131,13 +139,14 @@ const state = {
       'post': '741',
       'district': 'WESTERN',
       'neighborhood': 'EASTERWOOD',
-      'longitude': '-76.6502290000',
-      'latitude': '39.3096180000',
+      'longitude': -76.6102290000,
+      'latitude': 39.326180000,
       'premise': 'ROW/TOWNHOUSE-OCC',
       'vri_name1': 'Western',
       'total_incidents': '1'
     },
     {
+      'id': 8,
       'crimedate': '2019-10-06T00:00:00.000',
       'crimetime': '18:00:00',
       'crimecode': '4E',
@@ -148,8 +157,8 @@ const state = {
       'post': '612',
       'district': 'NORTHWEST',
       'neighborhood': 'PARK CIRCLE',
-      'longitude': '-76.6566890000',
-      'latitude': '39.3265610000',
+      'longitude': -76.6516890000,
+      'latitude': 39.3465610000,
       'premise': 'ROW/TOWNHOUSE-OCC',
       'total_incidents': '1'
     }
@@ -198,7 +207,6 @@ export default new Vuex.Store({
     // TODO: set defaults for the data sets in the application startup
     formatLineGraph (state) {
       // Defualts set here since we have no other spot to atm
-      console.log('formats data for charts/graphs')
       state.lineChart.timeframe = state.hours
       state.lineChart.dataFilter = 'totalCrimes'
 
@@ -210,7 +218,6 @@ export default new Vuex.Store({
         for (let dateTime of state.lineChart.timeframe) {
           state.lineChart.amountArray[count] = 0
           for (let crimeData of state.chartExampleData) {
-            // console.log(crimeData.crimetime + '; ' + dateTime)
             if (crimeData.crimetime === dateTime) {
               state.lineChart.amountArray[count] = state.lineChart.amountArray[count] + 1
             }
@@ -221,7 +228,6 @@ export default new Vuex.Store({
     },
     formatDonut (state) {
       // Defualts set here since we have no other spot to atm
-      console.log('formats data for donut')
       state.doughnutGraph.timeframe = state.hours
       state.doughnutGraph.dataFilter = 'weapons'
       state.doughnutGraph.dataFilterTypes = state.weaponTypes
@@ -253,7 +259,6 @@ export default new Vuex.Store({
     },
     formatBarGraph (state) {
       // Defualts set here since we have no other spot to atm
-      console.log('formats data for graph')
       state.barGraph.timeframe = state.hours
       state.barGraph.dataFilter = 'district'
       state.barGraph.dataFilterTypes = state.districts
