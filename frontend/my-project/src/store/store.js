@@ -199,9 +199,14 @@ export default new Vuex.Store({
   state,
   mutations: {
     updateCrimeframe (state, newStart, newEnd) {
-      // TODO: put in a list of dates from given start and end
       // state.crimeframe.startDate = newStart
       // state.crimeframe.endDate = newEnd
+      state.crimeframe = []
+      let date = new Date(newStart)
+      while (date <= newEnd) {
+        state.crimeframe.push(new Date(date))
+        date = date.setDate(date.getDate() + 1)
+      }
     },
     // default is set to a 24 day of the latest day in the dataset
     // TODO: set defaults for the data sets in the application startup

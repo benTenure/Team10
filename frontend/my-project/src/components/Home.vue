@@ -2,7 +2,7 @@
   <div>
     <h1>{{ msg }}</h1>
     <!--  Start of nick's timeframe (ctrl-frwdslash makes comment)-->
-    <v-row justify="center">
+    <div justify="center">
       <v-dialog v-model="dialog" scrollable max-width="250px">
         <template v-slot:activator="{ on }">
           <v-btn color="yellow darken-3" dark>Colorblind Mode
@@ -20,7 +20,7 @@
           <div class="text-left">
             <v-flex>
               <v-menu
-                v-model="menu2"
+                v-model="menu"
                 :close-on-content-click="true"
                 :nudge-right="40"
                 lazy
@@ -31,13 +31,13 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
-                    v-model="date"
-                    label="Date From"
+                    v-model="startDate"
+                    label="Start Date"
                     readonly
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                <v-date-picker v-model="startDate" @input="menu = false"></v-date-picker>
               </v-menu>
             </v-flex>
 
@@ -54,53 +54,29 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
-                    v-model="date"
-                    label="Date To"
+                    v-model="endDate"
+                    label="End Date"
                     readonly
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" @input="menu2 = false">
+                <v-date-picker v-model="endDate" @input="menu2 = false">
                   <v-spacer></v-spacer>
                 </v-date-picker>
               </v-menu>
             </v-flex>
           </div>
-          <v-row>
+          <div>
             <v-menu
-              ref="menu"
-              v-model="menu2"
+              ref="menu3"
+              v-model="modal2"
               :close-on-content-click="false"
               :nudge-right="40"
-              :return-value.sync="time"
-              transition="scale-transition"
-              offset-y
-              full-width
+              :return-value.sync="startTime"
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="time"
-                  label="Time From"
-                  readonly
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-time-picker
-                v-if="menu2"
-                v-model="time"
-                full-width
-                @click:minute="$refs.menu.save(time)"
-              ></v-time-picker>
-            </v-menu>
-            <v-spacer></v-spacer>
-            <v-menu
-              ref="menu"
-              v-model="modal2"
-              :return-value.sync="time"
-            >
-              <template v-slot:activator="{ on }">
-                <v-text-field
-                  v-model="time"
+                  v-model="startTime"
                   label="Time To"
                   readonly
                   v-on="on"
@@ -108,34 +84,60 @@
               </template>
               <v-time-picker
                 v-if="modal2"
-                v-model="time"
+                v-model="startTime"
                 full-width
               >
                 <v-spacer></v-spacer>
                 <v-btn text color="blue" @click="modal2 = false">Cancel</v-btn>
-                <v-btn text color="blue" @click="$refs.menu.save(time)">OK</v-btn>
+                <v-btn text color="blue" @click="$refs.menu3.save(startTime)">OK</v-btn>
               </v-time-picker>
             </v-menu>
-          </v-row>
+            <v-spacer></v-spacer>
+            <v-menu
+              ref="menu4"
+              v-model="modal2"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              :return-value.sync="endTime"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="endTime"
+                  label="Time To"
+                  readonly
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-time-picker
+                v-if="modal2"
+                v-model="endTime"
+                full-width
+              >
+                <v-spacer></v-spacer>
+                <v-btn text color="blue" @click="modal2 = false">Cancel</v-btn>
+                <v-btn text color="blue" @click="$refs.menu4.save(endTime)">OK</v-btn>
+              </v-time-picker>
+            </v-menu>
+          </div>
 <!--          start of checkboxes-->
           <v-card-title>Select Filter</v-card-title>
           <v-divider></v-divider>
           <v-card-text style="height: 300px;">
-            <v-radio-group v-model="dialogm1" column>
-              <v-radio label="Show Weapons" value="weapons"></v-radio>
-              <v-radio label="Show Crime Codes" value="crimeCodes"></v-radio>
+            <v-radio-group v-model="sortFilter" column>
+              <v-radio label="Show Weapons" value="weaponSort"></v-radio>
+              <v-radio label="Show Crime Codes" value="crimeCodeSort"></v-radio>
               <v-radio label="Show Locations" value="locations"></v-radio>
             </v-radio-group>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+            <v-btn color="blue darken-1" text @click="selectSorting()">Save</v-btn>
           </v-card-actions>
 
         </v-card>
       </v-dialog>
-    </v-row>
+    </div>
 
     <v-flex>
       <section id="LineChart">
@@ -176,24 +178,26 @@ import DoughnutChart from './DoughnutChart.js'
 import MapDataSet from './Map'
 export default {
   components: {LineGraph, BarChart, DoughnutChart, MapDataSet},
-  name: 'home',
-  date: '',
-  menu2: '',
-  modal2: '',
-  time: '',
   data: () => ({
+    name: 'home',
     msg: 'Team 10\'s 447 project template',
+    startDate: '',
+    endDate: '',
+    menu: false,
+    menu2: false,
+    menu3: false,
+    menu4: false,
+    modal2: '',
+    startTime: '',
+    endTime: '',
     //  for checkboxes
-    dialogm1: '',
+    sortFilter: '',
     dialog: false,
     //  end of data for checkboxes
     options: {
       responsive: true,
       maintainAspectRatio: false
-    },
-    zoom: 2,
-    center: [0, 0],
-    rotation: 0
+    }
   }),
   created () {
     // this.$store.commit(updateCrimeframe,'2019-10-03', '2019-10-10')
@@ -201,6 +205,10 @@ export default {
   methods: {
     updateCrimefame () {
       console.log('crimeframe updated')
+    },
+    selectSorting () {
+      // TODO: persist sortFilter and 'crimefrime' (date and time) to the store
+      this.dialog = false
     }
   }
 }
