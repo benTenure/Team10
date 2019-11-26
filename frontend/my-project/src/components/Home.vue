@@ -13,7 +13,17 @@
           <v-btn color="yellow darken-3" dark onclick="document.body.style.backgroundColor = 'orange';"  @click="colorSet = true">Colorblind Mode
             <i class="material-icons">
               remove_red_eye
+<!--              https://laracasts.com/discuss/channels/vue/change-a-value-inside-the-onclick-->
             </i>
+<!--            Colorblind Avoid: (Chose to add patterns)-->
+<!--            green-red-->
+<!--            green-blue-->
+<!--            green-brown-->
+<!--            green-black-->
+<!--            green-grey-->
+<!--            blue-grey-->
+<!--            light green-yellow-->
+<!--            blue-purple-->
           </v-btn>
           <v-btn color="blue darken-2" dark v-on="on">Filters
             <i class="material-icons">
