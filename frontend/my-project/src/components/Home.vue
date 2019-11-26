@@ -5,7 +5,12 @@
     <div justify="center">
       <v-dialog v-model="dialog" scrollable max-width="250px">
         <template v-slot:activator="{ on }">
-          <v-btn color="yellow darken-3" dark onclick="document.body.style.backgroundColor = 'orange';" >Colorblind Mode
+          <v-btn color="blue darken-3" dark onclick="document.body.style.backgroundColor = 'white';" @click="colorSet = false">Not Colorblind Mode
+            <i class="material-icons">
+              visibility_off
+            </i>
+          </v-btn>
+          <v-btn color="yellow darken-3" dark onclick="document.body.style.backgroundColor = 'orange';"  @click="colorSet = true">Colorblind Mode
             <i class="material-icons">
               remove_red_eye
             </i>
@@ -193,6 +198,7 @@ export default {
     //  for checkboxes
     sortFilter: '',
     dialog: false,
+    colorSet: false,
     //  end of data for checkboxes
     options: {
       responsive: true,
