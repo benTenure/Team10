@@ -149,7 +149,6 @@
             <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
             <v-btn color="blue darken-1" text @click="selectSorting()">Save</v-btn>
           </v-card-actions>
-
         </v-card>
       </v-dialog>
     </div>
@@ -212,8 +211,23 @@ export default {
     //  end of data for checkboxes
     options: {
       responsive: true,
-      maintainAspectRatio: false
-    }
+      maintainAspectRatio: false,
+
+      bar: {
+        distributed: true,
+        colors: ['#41B883', 'black', '#E46651', 'green', 'gray'],
+        fill: {
+          type: 'pattern',
+          opacity: 1,
+          pattern: {
+            style: ['circles', 'slantedLines', 'verticalLines', 'horizontalLines'] // string or array of strings
+          }
+        }
+      }
+    },
+    zoom: 2,
+    center: [0, 0],
+    rotation: 0
   }),
   created () {
     // this.$store.commit(updateCrimeframe,'2019-10-03', '2019-10-10')
