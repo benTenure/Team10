@@ -1,16 +1,16 @@
-<template>
+<template v-bind:style="{ backgroundColor: lightblue}">
   <div>
     <h1>{{ msg }}</h1>
     <!--  Start of nick's timeframe (ctrl-frwdslash makes comment)-->
     <div justify="center">
       <v-dialog v-model="dialog" scrollable max-width="250px">
         <template v-slot:activator="{ on }">
-          <v-btn color="blue darken-3" dark onclick="document.body.style.backgroundColor = 'white';" @click="colorSet = false">Not Colorblind Mode
+          <v-btn color="blue darken-3" dark onclick="document.body.style.backgroundColor = 'lightblue';" @click="colorSet = false">Not High Contrast Mode
             <i class="material-icons">
               visibility_off
             </i>
           </v-btn>
-          <v-btn color="yellow darken-3" dark onclick="document.body.style.backgroundColor = 'orange';"  @click="colorSet = true">Colorblind Mode
+          <v-btn color="yellow darken-3" dark onclick="document.body.style.backgroundColor = 'white';"  @click="colorSet = true">High Contrast Mode
             <i class="material-icons">
               remove_red_eye
 <!--              https://laracasts.com/discuss/channels/vue/change-a-value-inside-the-onclick-->
@@ -204,26 +204,13 @@ export default {
     modal2: '',
     startTime: '',
     endTime: '',
-    //  for checkboxes
+    dialogm1: '',
     sortFilter: '',
     dialog: false,
     colorSet: false,
-    //  end of data for checkboxes
     options: {
       responsive: true,
-      maintainAspectRatio: false,
-
-      bar: {
-        distributed: true,
-        colors: ['#41B883', 'black', '#E46651', 'green', 'gray'],
-        fill: {
-          type: 'pattern',
-          opacity: 1,
-          pattern: {
-            style: ['circles', 'slantedLines', 'verticalLines', 'horizontalLines'] // string or array of strings
-          }
-        }
-      }
+      maintainAspectRatio: false
     },
     zoom: 2,
     center: [0, 0],
