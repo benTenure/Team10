@@ -6,7 +6,7 @@ class Connector {
      * @var PDO
      */
     private $conn;
-    private $dsn = 'mysql:host=localhost;dbname=team10';
+    private $dsn = 'mysql:host=localhost;dbname=team10;port=3306';
     private $username = 'ec2-root';
     private $password = '';
     private $ec2keyPath = 'C:/';
