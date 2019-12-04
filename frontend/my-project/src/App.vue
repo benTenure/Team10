@@ -14,7 +14,7 @@ export default {
     moveToStore: {}
   }),
   created () {
-    this.$store.commit('updateCrimeframe', '2019-10-03', '2019-10-10')
+    this.$store.commit('updateCrimeframe', {startDate: '2019-10-03', endDate: '2019-10-10'})
     this.$store.commit('formatLineGraph')
     this.$store.commit('formatBarGraph')
     this.$store.commit('formatDonut')

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import moment from "moment";
 
 Vue.use(Vuex)
 
@@ -14,7 +15,7 @@ const state = {
       'location': '2800 GREENMOUNT AVE',
       'description': 'LARCENY',
       'inside_outside': 'I',
-      'weapon': 'NA',
+      'weapon': 'KNIFE',
       'post': '513',
       'district': 'NORTHERN',
       'neighborhood': 'HARWOOD',
@@ -66,7 +67,7 @@ const state = {
       'location': '2800 GREENMOUNT AVE',
       'description': 'LARCENY',
       'inside_outside': 'I',
-      'weapon': 'NA',
+      'weapon': 'KNIFE',
       'post': '513',
       'district': 'NORTHERN',
       'neighborhood': 'HARWOOD',
@@ -101,7 +102,7 @@ const state = {
       'location': '2500 DRUID PARK DR',
       'description': 'COMMON ASSAULT',
       'inside_outside': 'I',
-      'weapon': 'NA',
+      'weapon': 'FIREARM',
       'post': '612',
       'district': 'NORTHWEST',
       'neighborhood': 'PARK CIRCLE',
@@ -164,6 +165,7 @@ const state = {
     }
   ],
   crimeframe: [],
+  crimeframeRange: {},
   // TODO: broad filters (location, district, postal) vs specific (postal: 21012, district: Northern)
   // fill this later when this is more sorted
   filterTypes: [],
@@ -197,15 +199,16 @@ const state = {
 export default new Vuex.Store({
   state,
   mutations: {
-    updateCrimeframe (state, newStart, newEnd) {
+    updateCrimeframe (state, betweenDates) {
       // state.crimeframe.startDate = newStart
       // state.crimeframe.endDate = newEnd
       state.crimeframe = []
-      let date = new Date(newStart)
-      while (date <= newEnd) {
-        state.crimeframe.push(new Date(date))
-        date = date.setDate(date.getDate() + 1)
+      let currDate = moment(betweenDates.startDate)
+      while (currDate <= moment(betweenDates.endDate)) {
+        state.crimeframe.push(moment(currDate).format('YYYY-MM-DD'))
+        currDate = moment(currDate).add(1,'days')
       }
+      state.crimeframeRange = {startDate: moment(betweenDates.startDate), endDate: moment(betweenDates.endDate)}
     },
     formatMapData (state, sortBy) {
       if (state.mapData.length === 0) {
@@ -214,30 +217,57 @@ export default new Vuex.Store({
             id: crime.id,
             crimedate: crime.crimedate,
             crimetime: crime.crimetime,
+            crimecode: crime.crimecode,
+            weapon: crime.weapon,
             coords: [crime.longitude, crime.latitude]
           }
           state.mapData.push(value)
         }
       } else {
         state.mapData = []
-        console.log('pizza')
-        for (let crime of state.defaultData) {
+        state.defaultData.forEach(function(crime) {
           // by date
-          for (let date of state.crimeframe) {
-            if (crime.crimedate === date) {
-              // by other filters
+          if (moment(crime.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
+            // TODO: move this out into it's own function when sorting multiple charts/graphs
+            // checking the object 'sortBy' for which other values we can sort by
+            // ex: { crimecode: null, weaponType: 'KNIFE', zipCode: null, ...} -> sort by weapons{KNIFE}
+            if (sortBy.crimecode !== null) {
+              if(crime.crimecode === sortBy.crimecode){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.weaponType !== null) {
+              if(crime.weapon === sortBy.weaponType){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else {
               let value = {
                 id: crime.id,
                 crimedate: crime.crimedate,
                 crimetime: crime.crimetime,
+                crimecode: crime.crimecode,
+                weapon: crime.weapon,
                 coords: [crime.longitude, crime.latitude]
               }
               state.mapData.push(value)
-              break
             }
           }
-
-        }
+        })
       }
     },
     // default is set to a 24 day of the latest day in the dataset

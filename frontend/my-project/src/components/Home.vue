@@ -139,20 +139,35 @@
           <v-divider></v-divider>
           <v-card-text style="height: 300px;">
             <v-radio-group v-model="sortFilter" column>
+              <v-radio label="Show All Crimes" value="allCrimes"></v-radio>
               <v-radio label="Show Weapons" value="weaponSort"></v-radio>
               <v-radio label="Show Crime Codes" value="crimeCodeSort"></v-radio>
               <v-radio label="Show Locations" value="locations"></v-radio>
             </v-radio-group>
+            <v-select
+              v-if="weaponTypeSelector"
+              v-model="selectedWeaponType"
+              :items="weaponTypes"
+              outline
+            ></v-select>
+            <v-text-field
+              v-if="userStringFilterSelector"
+              v-model="userFilterString"
+              single-line
+              outline>
+            </v-text-field>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+            <v-btn color="blue darken-1" text @click="closeFilterDialog()">Close</v-btn>
             <v-btn color="blue darken-1" text @click="selectSorting()">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </div>
-
+    <div>
+      <p>Timefrime: {{crimeframeRange.startDate.format('MM/DD/YYYY')}} to {{crimeframeRange.endDate.format('MM/DD/YYYY')}}</p>
+    </div>
     <v-flex>
       <section id="LineChart">
       <div class="chart">
@@ -193,41 +208,82 @@ import MapDataSet from './Map'
 export default {
   components: {LineGraph, BarChart, DoughnutChart, MapDataSet},
   data: () => ({
-    name: 'home',
-    msg: 'Team 10\'s 447 project template',
-    startDate: '',
-    endDate: '',
-    menu: false,
-    menu2: false,
-    menu3: false,
-    menu4: false,
-    modal2: '',
-    startTime: '',
-    endTime: '',
-    dialogm1: '',
-    sortFilter: '',
-    dialog: false,
-    colorSet: false,
-    options: {
-      responsive: true,
-      maintainAspectRatio: false
-    },
+      name: 'home',
+      msg: 'Team 10\'s 447 project template',
+      startDate: '',
+      endDate: '',
+      menu: false,
+      menu2: false,
+      menu3: false,
+      menu4: false,
+      modal2: '',
+      startTime: '',
+      endTime: '',
+      dialogm1: '',
+      sortFilter: 'allCrimes',
+      dialog: false,
+      sortBy: {},
+      userStringFilterSelector: false,
+      userFilterString: null,
+      weaponTypeSelector: false,
+      selectedWeaponType: null,
+      colorSet: false,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      },
     zoom: 2,
     center: [0, 0],
     rotation: 0
   }),
-  created () {
-    // this.$store.commit(updateCrimeframe,'2019-10-03', '2019-10-10')
+  computed: {
+      crimeframeRange () {
+          return this.$store.state.crimeframeRange
+      },
+      weaponTypes () {
+          return this.$store.state.weaponTypes
+      }
+  },
+  watch: {
+      sortFilter: function (val){
+          this.selectChoice()
+      }
   },
   methods: {
-    selectSorting () {
-      // TODO: persist sortFilter and 'crimefrime' (date and time) to the store
-      if (this.startDate !== '' && this.endDate !== '') {
-        this.$store.commit('updateCrimeframe', this.startDate, this.endDate)
+      selectChoice () {
+        if (this.sortFilter === 'weaponSort') {
+            this.weaponTypeSelector = true
+            this.userStringFilterSelector = false
+        } else if (this.sortFilter === 'crimeCodeSort') {
+            this.weaponTypeSelector = false
+            this.userStringFilterSelector = true
+        }
+      },
+      selectSorting () {
+          if (this.startDate !== '' && this.endDate !== '') {
+            this.$store.commit('updateCrimeframe', {startDate: this.startDate, endDate: this.endDate})
+          }
+          this.sortBy = {
+              crimecode: null,
+              weaponType: null
+          }
+          if (this.sortFilter === 'weaponSort') {
+              this.sortBy.weaponType = this.selectedWeaponType
+          } else if (this.sortFilter === 'crimeCodeSort') {
+              this.sortBy.crimecode = this.userFilterString
+          }
+
+          this.$store.commit('formatMapData', this.sortBy)
+          this.dialog = false
+      },
+      closeFilterDialog () {
+          this.userStringFilterSelector = false
+          this.userFilterString = null
+          this.weaponTypeSelector = false
+          this.selectedWeaponType = null
+          this.sortFilter = 'allCrimes'
+          this.dialog = false
       }
-      this.$store.commit('formatMapData', {})
-      this.dialog = false
-    }
   }
 }
 </script>
