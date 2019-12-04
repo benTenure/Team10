@@ -6,9 +6,9 @@ class Connector {
      * @var PDO
      */
     private $conn;
-    private $dsn = 'mysql:host=localhost;dbname=team10;port=22';
-    private $username = 'root';
-    private $password = 'hello123';
+    private $dsn = 'mysql:host=localhost;dbname=team10';
+    private $username = 'ec2-root';
+    private $password = '';
     private $ec2keyPath = 'C:/';
     private $ec2key = 'Team10.pem';
     private $ssh = 'ec2-user@54.166.56.44';
