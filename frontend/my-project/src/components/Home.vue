@@ -220,11 +220,12 @@ export default {
     // this.$store.commit(updateCrimeframe,'2019-10-03', '2019-10-10')
   },
   methods: {
-    updateCrimefame () {
-      console.log('crimeframe updated')
-    },
     selectSorting () {
       // TODO: persist sortFilter and 'crimefrime' (date and time) to the store
+      if (this.startDate !== '' && this.endDate !== '') {
+        this.$store.commit('updateCrimeframe', this.startDate, this.endDate)
+      }
+      this.$store.commit('formatMapData', {})
       this.dialog = false
     }
   }

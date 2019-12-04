@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 const state = {
   // universal timeframe (research a good default)
-  chartExampleData: [
+  defaultData: [
     {
       'id': 0,
       'crimedate': '2019-10-05T00:00:00.000',
@@ -163,8 +163,7 @@ const state = {
       'total_incidents': '1'
     }
   ],
-  crimeframe: ['2019-10-03', '2019-10-04', '2019-10-05', '2019-10-06',
-    '2019-10-07', '2019-10-08', '2019-10-09', '2019-10-10'],
+  crimeframe: [],
   // TODO: broad filters (location, district, postal) vs specific (postal: 21012, district: Northern)
   // fill this later when this is more sorted
   filterTypes: [],
@@ -173,7 +172,7 @@ const state = {
   hours: ['00:00:00', '01:00:00', '02:00:00', '03:00:00', '04:00:00', '05:00:00', '06:00:00', '07:00:00', '08:00:00', '09:00:00', '10:00:00',
     '11:00:00', '12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00',
     '23:00:00'],
-
+  mapData: [],
   lineChart: {
     timeframe: [],
     dataFilter: null,
@@ -208,6 +207,39 @@ export default new Vuex.Store({
         date = date.setDate(date.getDate() + 1)
       }
     },
+    formatMapData (state, sortBy) {
+      if (state.mapData.length === 0) {
+        for (let crime of state.defaultData) {
+          let value = {
+            id: crime.id,
+            crimedate: crime.crimedate,
+            crimetime: crime.crimetime,
+            coords: [crime.longitude, crime.latitude]
+          }
+          state.mapData.push(value)
+        }
+      } else {
+        state.mapData = []
+        console.log('pizza')
+        for (let crime of state.defaultData) {
+          // by date
+          for (let date of state.crimeframe) {
+            if (crime.crimedate === date) {
+              // by other filters
+              let value = {
+                id: crime.id,
+                crimedate: crime.crimedate,
+                crimetime: crime.crimetime,
+                coords: [crime.longitude, crime.latitude]
+              }
+              state.mapData.push(value)
+              break
+            }
+          }
+
+        }
+      }
+    },
     // default is set to a 24 day of the latest day in the dataset
     // TODO: set defaults for the data sets in the application startup
     formatLineGraph (state) {
@@ -222,7 +254,7 @@ export default new Vuex.Store({
         // TODO: ask to round the times from backend
         for (let dateTime of state.lineChart.timeframe) {
           state.lineChart.amountArray[count] = 0
-          for (let crimeData of state.chartExampleData) {
+          for (let crimeData of state.defaultData) {
             if (crimeData.crimetime === dateTime) {
               state.lineChart.amountArray[count] = state.lineChart.amountArray[count] + 1
             }
@@ -244,7 +276,7 @@ export default new Vuex.Store({
           state.doughnutGraph.amountArray[val] = 0
         }
         // TODO: make sure data is sorted by time
-        for (let crimeData of state.chartExampleData) {
+        for (let crimeData of state.defaultData) {
           // ['NA', 'FIREARM', 'OTHER', 'KNIFE', 'HANDS', 'FIRE']
           if (crimeData.weapon === 'NA') {
             state.doughnutGraph.amountArray[0] = state.doughnutGraph.amountArray[0] + 1
@@ -274,7 +306,7 @@ export default new Vuex.Store({
         for (let val = 0; val < 10; val++) {
           state.barGraph.amountArray[val] = 0
         }
-        for (let crimeData of state.chartExampleData) {
+        for (let crimeData of state.defaultData) {
           // ['CENTRAL', 'EASTERN', 'NORTHEAST', 'NORTHERN', 'NORTHWEST', 'SOUTHEAST', 'SOUTHERN', 'SOUTHWEST', 'UNKNOWN', 'WESTERN'],
           if (crimeData.district === 'CENTRAL') {
             state.barGraph.amountArray[0] = state.barGraph.amountArray[0] + 1

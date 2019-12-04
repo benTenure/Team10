@@ -24,7 +24,7 @@ Vue.use({
   }
 })
 
-/* eslint-disable no-new */
+/* eslint-disable */
 new Vue({
   el: '#app',
   router,

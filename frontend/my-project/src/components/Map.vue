@@ -20,19 +20,19 @@ export default {
     return {
       zoom: 11,
       center: [-76.6566890000, 39.3265610000],
-      rotation: 0,
-      crimePoints: []
+      rotation: 0
     }
   },
-  created () {
-    for (let crime of this.$store.state.chartExampleData) {
-      let value = {
-        id: crime.id,
-        crimedate: crime.crimedate,
-        crimetime: crime.crimetime,
-        coords: [crime.longitude, crime.latitude]
+  computed: {
+    crimePoints: {
+      get () {
+        return this.$store.state.mapData
       }
-      this.crimePoints.push(value)
+    }
+  },
+  methods: {
+    updateMapData () {
+      this.crimePoints = this.$store.state.mapData
     }
   }
 }
