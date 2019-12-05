@@ -1,13 +1,40 @@
 <template>
   <div id="app">
     <router-view/>
-    <img class="" src="./assets/static heatmap map.png">
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  name: 'App'
+  name: 'App',
+  data: () => ({
+    msg: 'hello',
+    moveToStore: {}
+  }),
+  created () {
+    this.$store.commit('updateCrimeframe', '2019-10-03', '2019-10-10')
+    this.$store.commit('formatLineGraph')
+    this.$store.commit('formatBarGraph')
+    this.$store.commit('formatDonut')
+    this.intialLoad()
+  },
+  methods: {
+    intialLoad () {
+      axios.get('http://54.166.56.44/filter/both',
+        {
+          startDate: '2019-10-03', endDate: '2019-10-10'
+        })
+        .then(function (response) {
+          console.log(response.data)
+          this.moveToStore = response.data
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  }
 }
 </script>
 
