@@ -2,13 +2,14 @@
 
 /*
 
+Pass in "action" to determine the type of query to perform
+
 Parameters are:
 timeBefore
 timeAfter
 dateBefore
 dateAfter
-
-Later we might do an 'action' parameter for filter type
+action - (BetweenTimes, BetweenDates, BetweenBoth)
 
 */
 
@@ -24,19 +25,28 @@ $connect = $connector->connect();
 
 $data = new dataPoint($connect);
 
-/* This segment may be added later for filters, or I might do a more general query
-
- * if($_GET["action"] = 'BetweenTimes'){
-    $result = $data->betweenTimes($_GET["timeBefore"], $_GET["timeAfter"]);
-} else if($_GET["action"] = 'BetweenDates'){
-    $result = $data->betweenDates($_GET["dateBefore"], $_GET["dateAfter"]);
-} else if($_GET["action"] = 'BetweenBoth'){
-    $result = $data->betweenBoth($_GET["timeBefore"], $_GET["timeAfter"], $_GET["dateBefore"], $_GET["dateAfter"]);
-}
+/*We might need this:
+$_GET = json_decode(file_get_contents("php://input"), TRUE);
 */
 
-//Right now we are only going to use between both
-$result = $data->betweenBoth($_GET["startTime"], $_GET["endTime"], $_GET["startDate"], $_GET["endDate"]);
+// Might go back to just using one endpoint
+// $result = $data->betweenBoth($_GET["startTime"], $_GET["endTime"], $_GET["startDate"], $_GET["endDate"]);
+
+//"action" parameter determines what type of query to perform
+switch ($_GET["action"]) {
+    case 'BetweenTimes':
+        $result = $data->betweenTimes($_GET["timeBefore"], $_GET["timeAfter"]);;
+        break;
+    case 'BetweenDates':
+        $result = $data->betweenDates($_GET["dateBefore"], $_GET["dateAfter"]);
+        break;
+    case 'BetweenBoth':
+        $result = $data->betweenBoth($_GET["timeBefore"], $_GET["timeAfter"], $_GET["dateBefore"], $_GET["dateAfter"]);;
+        break;
+    default:
+        echo "No action selected.";
+        break;
+}
 
 $num = $result->rowCount();
 $itemList['data'] = array();
