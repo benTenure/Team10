@@ -6,31 +6,38 @@
 
 <script>
 import axios from 'axios'
+import moment from "moment";
 
 export default {
   name: 'App',
   data: () => ({
-    msg: 'hello',
-    moveToStore: {}
+      msg: 'hello',
+      moveToStore: {},
+      startDefaultDate: null,
+      endDefaultDate: null
   }),
   created () {
-    this.$store.commit('updateCrimeframe', {startDate: '2019-10-03', endDate: '2019-10-10'})
-    this.$store.commit('formatLineGraph')
-    this.$store.commit('formatBarGraph')
-    this.$store.commit('formatDonut')
-    this.$store.commit('formatMapData', {})
-    // this.intialLoad()
+      // 2 months as a default
+      this.startDefaultDate = moment().subtract(2, 'months' ).format('YYYY-MM-DD')
+      this.endDefaultDate = moment().format('YYYY-MM-DD')
+      this.$store.commit('updateCrimeframe', {startDate: this.startDefaultDate, endDate: this.endDefaultDate})
+      this.$store.commit('formatLineGraph')
+      this.$store.commit('formatBarGraph')
+      this.$store.commit('formatDonut')
+      this.$store.commit('formatMapData', {})
+      this.intialLoad()
   },
   methods: {
     intialLoad () {
-      axios.get('http://54.166.56.44/filter/both',
-        {
-          startDate: '2019-10-03', endDate: '2019-10-10'
+      axios.get('http://54.166.56.44/backend/index.php?action=BetweenDates',
+        { params: {
+                dateBefore: moment(this.startDefaultDate).format('YYYYMMDD'),
+                dateAfter: moment(this.endDefaultDate).format('YYYYMMDD')
+            }
         })
         .then(function (response) {
-          console.log(response.data)
-          this.moveToStore = response.data
-          this.$store.state.defaultData = response.data
+            this.moveToStore = response.data
+            this.$store.state.defaultData = response.data
         })
         .catch(function (error) {
           console.log(error)

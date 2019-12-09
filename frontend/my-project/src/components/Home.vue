@@ -205,6 +205,7 @@ import LineGraph from './LineGraph.js'
 import BarChart from './BarChart.js'
 import DoughnutChart from './DoughnutChart.js'
 import MapDataSet from './Map'
+import axios from 'axios'
 export default {
   components: {LineGraph, BarChart, DoughnutChart, MapDataSet},
   data: () => ({
@@ -261,7 +262,22 @@ export default {
       },
       selectSorting () {
           if (this.startDate !== '' && this.endDate !== '') {
-            this.$store.commit('updateCrimeframe', {startDate: this.startDate, endDate: this.endDate})
+              axios.get('http://54.166.56.44/backend/index.php?action=BetweenDates',
+                  { params: {
+                          dateBefore: moment(this.startDate).format('YYYYMMDD'),
+                          dateAfter: moment(this.endDate).format('YYYYMMDD')
+                      }
+                  })
+                  .then(function (response) {
+                      this.moveToStore = response.data
+                      this.$store.state.defaultData = response.data
+                      this.$store.commit('updateCrimeframe', {startDate: this.startDate, endDate: this.endDate})
+                  })
+                  .catch(function (error) {
+                      console.log(error)
+                  })
+              // get rid of when REST call works
+              this.$store.commit('updateCrimeframe', {startDate: this.startDate, endDate: this.endDate})
           }
           this.sortBy = {
               crimecode: null,
