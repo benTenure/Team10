@@ -1,14 +1,29 @@
-<template>
+<template v-bind:style="{ backgroundColor: lightblue}">
   <div>
     <h1>{{ msg }}</h1>
     <!--  Start of nick's timeframe (ctrl-frwdslash makes comment)-->
     <div justify="center">
       <v-dialog v-model="dialog" scrollable max-width="250px">
         <template v-slot:activator="{ on }">
-          <v-btn color="yellow darken-3" dark>Colorblind Mode
+          <v-btn color="blue darken-3" dark onclick="document.body.style.backgroundColor = 'lightblue';" @click="colorSet = false">Not High Contrast Mode
+            <i class="material-icons">
+              visibility_off
+            </i>
+          </v-btn>
+          <v-btn color="yellow darken-3" dark onclick="document.body.style.backgroundColor = 'white';"  @click="colorSet = true">High Contrast Mode
             <i class="material-icons">
               remove_red_eye
+<!--              https://laracasts.com/discuss/channels/vue/change-a-value-inside-the-onclick-->
             </i>
+<!--            Colorblind Avoid: (Chose to add patterns)-->
+<!--            green-red-->
+<!--            green-blue-->
+<!--            green-brown-->
+<!--            green-black-->
+<!--            green-grey-->
+<!--            blue-grey-->
+<!--            light green-yellow-->
+<!--            blue-purple-->
           </v-btn>
           <v-btn color="blue darken-2" dark v-on="on">Filters
             <i class="material-icons">
@@ -134,7 +149,6 @@
             <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
             <v-btn color="blue darken-1" text @click="selectSorting()">Save</v-btn>
           </v-card-actions>
-
         </v-card>
       </v-dialog>
     </div>
@@ -190,14 +204,17 @@ export default {
     modal2: '',
     startTime: '',
     endTime: '',
-    //  for checkboxes
+    dialogm1: '',
     sortFilter: '',
     dialog: false,
-    //  end of data for checkboxes
+    colorSet: false,
     options: {
       responsive: true,
       maintainAspectRatio: false
-    }
+    },
+    zoom: 2,
+    center: [0, 0],
+    rotation: 0
   }),
   created () {
     // this.$store.commit(updateCrimeframe,'2019-10-03', '2019-10-10')
