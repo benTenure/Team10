@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import moment from "moment";
 
 Vue.use(Vuex)
 
 const state = {
   // universal timeframe (research a good default)
-  chartExampleData: [
+  defaultData: [
     {
       'id': 0,
       'crimedate': '2019-10-05T00:00:00.000',
@@ -14,7 +15,7 @@ const state = {
       'location': '2800 GREENMOUNT AVE',
       'description': 'LARCENY',
       'inside_outside': 'I',
-      'weapon': 'NA',
+      'weapon': 'KNIFE',
       'post': '513',
       'district': 'NORTHERN',
       'neighborhood': 'HARWOOD',
@@ -66,7 +67,7 @@ const state = {
       'location': '2800 GREENMOUNT AVE',
       'description': 'LARCENY',
       'inside_outside': 'I',
-      'weapon': 'NA',
+      'weapon': 'KNIFE',
       'post': '513',
       'district': 'NORTHERN',
       'neighborhood': 'HARWOOD',
@@ -101,7 +102,7 @@ const state = {
       'location': '2500 DRUID PARK DR',
       'description': 'COMMON ASSAULT',
       'inside_outside': 'I',
-      'weapon': 'NA',
+      'weapon': 'FIREARM',
       'post': '612',
       'district': 'NORTHWEST',
       'neighborhood': 'PARK CIRCLE',
@@ -163,8 +164,8 @@ const state = {
       'total_incidents': '1'
     }
   ],
-  crimeframe: ['2019-10-03', '2019-10-04', '2019-10-05', '2019-10-06',
-    '2019-10-07', '2019-10-08', '2019-10-09', '2019-10-10'],
+  crimeframe: [],
+  crimeframeRange: {},
   // TODO: broad filters (location, district, postal) vs specific (postal: 21012, district: Northern)
   // fill this later when this is more sorted
   filterTypes: [],
@@ -173,7 +174,7 @@ const state = {
   hours: ['00:00:00', '01:00:00', '02:00:00', '03:00:00', '04:00:00', '05:00:00', '06:00:00', '07:00:00', '08:00:00', '09:00:00', '10:00:00',
     '11:00:00', '12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00',
     '23:00:00'],
-
+  mapData: [],
   lineChart: {
     timeframe: [],
     dataFilter: null,
@@ -198,14 +199,75 @@ const state = {
 export default new Vuex.Store({
   state,
   mutations: {
-    updateCrimeframe (state, newStart, newEnd) {
+    updateCrimeframe (state, betweenDates) {
       // state.crimeframe.startDate = newStart
       // state.crimeframe.endDate = newEnd
       state.crimeframe = []
-      let date = new Date(newStart)
-      while (date <= newEnd) {
-        state.crimeframe.push(new Date(date))
-        date = date.setDate(date.getDate() + 1)
+      let currDate = moment(betweenDates.startDate)
+      while (currDate <= moment(betweenDates.endDate)) {
+        state.crimeframe.push(moment(currDate).format('YYYY-MM-DD'))
+        currDate = moment(currDate).add(1,'days')
+      }
+      state.crimeframeRange = {startDate: moment(betweenDates.startDate), endDate: moment(betweenDates.endDate)}
+    },
+    formatMapData (state, sortBy) {
+      if (state.mapData.length === 0) {
+        for (let crime of state.defaultData) {
+          let value = {
+            id: crime.id,
+            crimedate: crime.crimedate,
+            crimetime: crime.crimetime,
+            crimecode: crime.crimecode,
+            weapon: crime.weapon,
+            coords: [crime.longitude, crime.latitude]
+          }
+          state.mapData.push(value)
+        }
+      } else {
+        state.mapData = []
+        state.defaultData.forEach(function(crime) {
+          // by date
+          if (moment(crime.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
+            // TODO: move this out into it's own function when sorting multiple charts/graphs
+            // checking the object 'sortBy' for which other values we can sort by
+            // ex: { crimecode: null, weaponType: 'KNIFE', zipCode: null, ...} -> sort by weapons{KNIFE}
+            if (sortBy.crimecode !== null) {
+              if(crime.crimecode === sortBy.crimecode){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.weaponType !== null) {
+              if(crime.weapon === sortBy.weaponType){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else {
+              let value = {
+                id: crime.id,
+                crimedate: crime.crimedate,
+                crimetime: crime.crimetime,
+                crimecode: crime.crimecode,
+                weapon: crime.weapon,
+                coords: [crime.longitude, crime.latitude]
+              }
+              state.mapData.push(value)
+            }
+          }
+        })
       }
     },
     // default is set to a 24 day of the latest day in the dataset
@@ -222,7 +284,7 @@ export default new Vuex.Store({
         // TODO: ask to round the times from backend
         for (let dateTime of state.lineChart.timeframe) {
           state.lineChart.amountArray[count] = 0
-          for (let crimeData of state.chartExampleData) {
+          for (let crimeData of state.defaultData) {
             if (crimeData.crimetime === dateTime) {
               state.lineChart.amountArray[count] = state.lineChart.amountArray[count] + 1
             }
@@ -244,7 +306,7 @@ export default new Vuex.Store({
           state.doughnutGraph.amountArray[val] = 0
         }
         // TODO: make sure data is sorted by time
-        for (let crimeData of state.chartExampleData) {
+        for (let crimeData of state.defaultData) {
           // ['NA', 'FIREARM', 'OTHER', 'KNIFE', 'HANDS', 'FIRE']
           if (crimeData.weapon === 'NA') {
             state.doughnutGraph.amountArray[0] = state.doughnutGraph.amountArray[0] + 1
@@ -274,7 +336,7 @@ export default new Vuex.Store({
         for (let val = 0; val < 10; val++) {
           state.barGraph.amountArray[val] = 0
         }
-        for (let crimeData of state.chartExampleData) {
+        for (let crimeData of state.defaultData) {
           // ['CENTRAL', 'EASTERN', 'NORTHEAST', 'NORTHERN', 'NORTHWEST', 'SOUTHEAST', 'SOUTHERN', 'SOUTHWEST', 'UNKNOWN', 'WESTERN'],
           if (crimeData.district === 'CENTRAL') {
             state.barGraph.amountArray[0] = state.barGraph.amountArray[0] + 1

@@ -14,11 +14,12 @@ export default {
     moveToStore: {}
   }),
   created () {
-    this.$store.commit('updateCrimeframe', '2019-10-03', '2019-10-10')
+    this.$store.commit('updateCrimeframe', {startDate: '2019-10-03', endDate: '2019-10-10'})
     this.$store.commit('formatLineGraph')
     this.$store.commit('formatBarGraph')
     this.$store.commit('formatDonut')
-    this.intialLoad()
+    this.$store.commit('formatMapData', {})
+    // this.intialLoad()
   },
   methods: {
     intialLoad () {
@@ -29,6 +30,7 @@ export default {
         .then(function (response) {
           console.log(response.data)
           this.moveToStore = response.data
+          this.$store.state.defaultData = response.data
         })
         .catch(function (error) {
           console.log(error)
