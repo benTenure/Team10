@@ -363,6 +363,7 @@ export default {
 }
 #allButtons {
   position: absolute;
-  top: 0px
+  top: 0px;
+  left: 25%
 }
 </style>
