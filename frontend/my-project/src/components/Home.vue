@@ -1,8 +1,8 @@
 <template v-bind:style="{ backgroundColor: lightblue}">
   <div>
-    <h1>{{ msg }}</h1>
     <!--  Start of nick's timeframe (ctrl-frwdslash makes comment)-->
-    <div justify="center">
+    <section id = "allButtons">
+      <div justify="center">
       <v-dialog v-model="dialog" scrollable max-width="250px">
         <template v-slot:activator="{ on }">
           <v-btn color="blue darken-3" dark onclick="document.body.style.backgroundColor = 'lightblue';" @click="colorSet = false">Not High Contrast Mode
@@ -92,7 +92,7 @@
               <template v-slot:activator="{ on }">
                 <v-text-field
                   v-model="startTime"
-                  label="Time To"
+                  label="Time From"
                   readonly
                   v-on="on"
                 ></v-text-field>
@@ -165,8 +165,9 @@
         </v-card>
       </v-dialog>
     </div>
+    </section>
     <div>
-      <p>Timefrime: {{crimeframeRange.startDate.format('MM/DD/YYYY')}} to {{crimeframeRange.endDate.format('MM/DD/YYYY')}}</p>
+      <!--<p>Timefrime: {{crimeframeRange.startDate.format('MM/DD/YYYY')}} to {{crimeframeRange.endDate.format('MM/DD/YYYY')}}</p> -->
     </div>
     <v-flex>
       <section id="LineChart">
@@ -339,25 +340,29 @@ export default {
 #LineChart{
   position: absolute;
   right: 0;
-  top: 600px;
+  top: 550px;
   width: 33%;
 }
 #BarChart{
   position: absolute;
   right: 33%;
-  top: 600px;
+  top: 550px;
   width: 33%;
 }
 #PieChart{
   position: absolute;
   left: 0;
-  top: 600px;
+  top: 550px;
   width: 33%;
 }
 #Map {
   position: absolute;
   left: 0;
-  top: 125px;
+  top: 50px;
   width: 100%
+}
+#allButtons {
+  position: absolute;
+  top: 0px
 }
 </style>
