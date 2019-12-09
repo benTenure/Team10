@@ -12,7 +12,7 @@ class dataPoint
 
     public function betweenTimes($time1, $time2)
     {
-        $query = 'USE team10;
+        $query = '
 			SELECT
 				*
 			FROM
@@ -28,7 +28,7 @@ class dataPoint
 
     public function betweenBoth($time1, $time2, $date1, $date2)
     {
-        $query = 'USE team10;
+        $query = '
 			SELECT
 				*
 			FROM
@@ -45,7 +45,7 @@ class dataPoint
 
     public function betweenDates($date1, $date2)
     {
-        $query = 'USE team10;
+        $query = '
 			SELECT
 				*
 			FROM
