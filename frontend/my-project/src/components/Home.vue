@@ -3,7 +3,7 @@
     <!--  Start of nick's timeframe (ctrl-frwdslash makes comment)-->
     <section id = "allButtons">
       <div justify="center">
-      <v-dialog v-model="dialog" scrollable max-width="250px">
+      <v-dialog v-model="dialog" scrollable max-width="500px">
         <template v-slot:activator="{ on }">
           <v-btn color="blue darken-3" dark onclick="document.body.style.backgroundColor = 'lightblue';" @click="colorSet = false">Not High Contrast Mode
             <i class="material-icons">
@@ -15,15 +15,6 @@
               remove_red_eye
 <!--              https://laracasts.com/discuss/channels/vue/change-a-value-inside-the-onclick-->
             </i>
-<!--            Colorblind Avoid: (Chose to add patterns)-->
-<!--            green-red-->
-<!--            green-blue-->
-<!--            green-brown-->
-<!--            green-black-->
-<!--            green-grey-->
-<!--            blue-grey-->
-<!--            light green-yellow-->
-<!--            blue-purple-->
           </v-btn>
           <v-btn color="blue darken-2" dark v-on="on">Filters
             <i class="material-icons">
@@ -33,34 +24,39 @@
         </template>
         <v-card>
           <div class="text-left">
-            <v-flex>
-              <v-menu
-                v-model="menu"
-                :close-on-content-click="true"
-                :nudge-right="40"
-                lazy
-                transition="scale-transition"
-                offset-y
-                full-width
-                min-width="280px"
-              >
-                <template v-slot:activator="{ on }">
-                  <v-text-field
-                    v-model="startDate"
-                    label="Start Date"
-                    readonly
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker v-model="startDate" @input="menu = false"></v-date-picker>
-              </v-menu>
-            </v-flex>
-
+            <v-card-title>
+              <span class="title font-weight-bold">Filtration for the datasets</span>
+            </v-card-title>
+            <v-divider/>
+              <v-card-title>
+                <span class="subheading font-weight-bold">Timeframe picker:</span>
+              </v-card-title>
+              <v-flex xs11 sm5 offset-xs1>
+                  <v-menu
+                    v-model="menu"
+                    :close-on-content-click="true"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="280px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="startDate"
+                        label="Start Date"
+                        outline
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="startDate" @input="menu = false"></v-date-picker>
+                  </v-menu>
+              </v-flex>
             <v-flex >
               <v-menu
                 v-model="menu2"
                 :close-on-content-click="true"
-                :nudge-right="40"
                 lazy
                 transition="scale-transition"
                 offset-y
@@ -129,8 +125,8 @@
                 full-width
               >
                 <v-spacer></v-spacer>
-                <v-btn text color="blue" @click="modal2 = false">Cancel</v-btn>
-                <v-btn text color="blue" @click="$refs.menu4.save(endTime)">OK</v-btn>
+                <v-btn color="blue" @click="modal2 = false">Cancel</v-btn>
+                <v-btn color="blue" @click="$refs.menu4.save(endTime)">OK</v-btn>
               </v-time-picker>
             </v-menu>
           </div>
