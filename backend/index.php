@@ -1,17 +1,24 @@
 <?php
 
 /*
-
-Pass in "action" to determine the type of query to perform
-
-Parameters are:
-timeBefore
-timeAfter
-dateBefore
-dateAfter
-action - (BetweenTimes, BetweenDates, BetweenBoth)
-
-*/
+ * index.php
+ * Author: Team 10
+ * The endpoint for the REST API. Receives user parameters and asks for appropriate query, then decodes the result.
+ *
+ * HOW TO USE:
+ * http://54.166.56.44/backend/index.php is the endpoint to call for a query.
+ *
+ * Pass in "action" to determine the type of query to perform
+ * Parameters are:
+ * timeBefore - XXXXXX means XX:XX:XX
+ * timeAfter - XXXXXX means XX:XX:XX
+ * dateBefore - XXXXXXXX means XXXX/XX/XX
+ * dateAfter - XXXXXXXX means XXXX/XX/XX
+ * action - (BetweenTimes, BetweenDates, BetweenBoth)
+ *
+ * Example call: http://54.166.56.44/backend/index.php?action=BetweenBoth&timeBefore=000000&timeAfter=100000&dateBefore=00000000&dateAfter=20191021
+ * This will query all crimes between times 00:00:00 and 10:00:00 and between days 0000/00/00 and 2019/10/21.
+ */
 
 
 header('Access-Control-Allow-Origin: *');

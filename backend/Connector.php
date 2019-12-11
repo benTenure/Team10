@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Connector.php
+ * Author: Team 10
+ * This file obtains the connection with the database via PDO.
+ */
+
 class Connector {
 
     /**
@@ -22,7 +28,7 @@ class Connector {
 
         try{
             $this->conn = new PDO($this->dsn, $this->username, $this->password);
-            echo "Connected! \n\n";
+            //echo "Connected! \n\n";
         } catch (PDOException $error) {
             echo 'Error. ' . $error;
         }
