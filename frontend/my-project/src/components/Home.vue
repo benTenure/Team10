@@ -1,6 +1,5 @@
 <template v-bind:style="{ backgroundColor: lightblue}">
   <div>
-    <h1>{{ msg }}</h1>
     <!--  Start of nick's timeframe (ctrl-frwdslash makes comment)-->
     <div justify="center">
       <v-dialog v-model="dialog" scrollable max-width="250px">
@@ -142,7 +141,7 @@
               <v-radio label="Show All Crimes" value="allCrimes"></v-radio>
               <v-radio label="Show Weapons" value="weaponSort"></v-radio>
               <v-radio label="Show Crime Codes" value="crimeCodeSort"></v-radio>
-              <v-radio label="Show Locations" value="locations"></v-radio>
+              <v-radio label="Show Locations" value="locationSort"></v-radio>
             </v-radio-group>
             <v-select
               v-if="weaponTypeSelector"
@@ -151,8 +150,20 @@
               outline
             ></v-select>
             <v-text-field
-              v-if="userStringFilterSelector"
-              v-model="userFilterString"
+              v-if="crimecodeSelector"
+              v-model="crimecodeString"
+              single-line
+              outline>
+            </v-text-field>
+            <v-select
+              v-if="locationTypeSelector"
+              v-model="locationTypeString"
+              :items="locationTypes"
+              outline
+            ></v-select>
+            <v-text-field
+              v-if="locationTypeSelector"
+              v-model="locationString"
               single-line
               outline>
             </v-text-field>
@@ -225,10 +236,13 @@ export default {
       sortFilter: 'allCrimes',
       dialog: false,
       sortBy: {},
-      userStringFilterSelector: false,
-      userFilterString: null,
+      crimecodeSelector: false,
+      crimecodeString: null,
       weaponTypeSelector: false,
       selectedWeaponType: null,
+      locationTypeSelector: false,
+      locationTypeString: null,
+      locationString: null,
       colorSet: false,
       options: {
         responsive: true,
@@ -244,6 +258,9 @@ export default {
       },
       weaponTypes () {
           return this.$store.state.weaponTypes
+      },
+      locationTypes () {
+          return this.$store.state.locationTypes
       },
       lineChart () {
           return this.$store.state.lineChart
@@ -263,14 +280,21 @@ export default {
   methods: {
       selectChoice () {
         if (this.sortFilter === 'weaponSort') {
+            this.locationTypeSelector = false
             this.weaponTypeSelector = true
-            this.userStringFilterSelector = false
+            this.crimecodeSelector = false
         } else if (this.sortFilter === 'crimeCodeSort') {
+            this.locationTypeSelector = false
             this.weaponTypeSelector = false
-            this.userStringFilterSelector = true
+            this.crimecodeSelector = true
+        } else if (this.sortFilter === 'locationSort') {
+            this.locationTypeSelector = true
+            this.weaponTypeSelector = false
+            this.crimecodeSelector = false
         } else {
+            this.locationTypeSelector = false
             this.weaponTypeSelector = false
-            this.userStringFilterSelector = false
+            this.crimecodeSelector = false
         }
       },
       selectSorting () {
@@ -282,7 +306,6 @@ export default {
                       }
                   })
                   .then(function (response) {
-                      this.moveToStore = response.data
                       this.$store.state.defaultData = response.data
                       this.$store.commit('updateCrimeframe', {startDate: this.startDate, endDate: this.endDate})
                   })
@@ -294,12 +317,32 @@ export default {
           }
           this.sortBy = {
               crimecode: null,
-              weaponType: null
+              weaponType: null,
+              address: null,
+              inside_outside: null,
+              zip: null,
+              district: null,
+              neighborhood: null,
+              premise: null
           }
           if (this.sortFilter === 'weaponSort') {
               this.sortBy.weaponType = this.selectedWeaponType
           } else if (this.sortFilter === 'crimeCodeSort') {
-              this.sortBy.crimecode = this.userFilterString
+              this.sortBy.crimecode = this.crimecodeString
+          } else if (this.sortFilter === 'locationSort') {
+              if (this.locationTypeString === 'Address') {
+                  this.sortBy.address = this.locationString
+              } else if (this.locationTypeString === 'Inside/Outside') {
+                  this.sortBy.inside_outside = this.locationString
+              } else if (this.locationTypeString === 'Zip Code') {
+                  this.sortBy.zip = this.locationString
+              } else if (this.locationTypeString === 'District') {
+                  this.sortBy.district = this.locationString
+              } else if (this.locationTypeString === 'Neighborhood') {
+                  this.sortBy.neighborhood = this.locationString
+              } else if (this.locationTypeString === 'Building Type') {
+                  this.sortBy.premise = this.locationString
+              }
           }
 
           this.$store.commit('formatMapData', this.sortBy)
@@ -309,8 +352,8 @@ export default {
           this.dialog = false
       },
       closeFilterDialog () {
-          this.userStringFilterSelector = false
-          this.userFilterString = null
+          this.crimecodeSelector = false
+          this.crimecodeString = null
           this.weaponTypeSelector = false
           this.selectedWeaponType = null
           this.sortFilter = 'allCrimes'

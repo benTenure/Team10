@@ -171,6 +171,7 @@ const state = {
   filterTypes: [],
   districts: ['CENTRAL', 'EASTERN', 'NORTHEAST', 'NORTHERN', 'NORTHWEST', 'SOUTHEAST', 'SOUTHERN', 'SOUTHWEST', 'UNKNOWN', 'WESTERN'],
   weaponTypes: ['NA', 'FIREARM', 'OTHER', 'KNIFE', 'HANDS', 'FIRE'],
+  locationTypes: ['Address', 'Inside/Outside', 'Zip Code', 'District', 'Neighborhood', 'Building Type'],
   hours: ['00:00:00', '01:00:00', '02:00:00', '03:00:00', '04:00:00', '05:00:00', '06:00:00', '07:00:00', '08:00:00', '09:00:00', '10:00:00',
     '11:00:00', '12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00',
     '23:00:00'],
@@ -211,6 +212,7 @@ export default new Vuex.Store({
       state.crimeframeRange = {startDate: moment(betweenDates.startDate), endDate: moment(betweenDates.endDate)}
     },
     formatMapData (state, sortBy) {
+      //TODO: clean up
       if (state.mapData.length === 0) {
         for (let crime of state.defaultData) {
           let value = {
@@ -219,6 +221,12 @@ export default new Vuex.Store({
             crimetime: crime.crimetime,
             crimecode: crime.crimecode,
             weapon: crime.weapon,
+            address: crime.location,
+            inside_outside: crime.inside_outside,
+            zip: crime.post,
+            district: crime.district,
+            neighborhood: crime.neighborhood,
+            premise: crime.premise,
             coords: [crime.longitude, crime.latitude]
           }
           state.mapData.push(value)
@@ -239,6 +247,12 @@ export default new Vuex.Store({
                   crimetime: crime.crimetime,
                   crimecode: crime.crimecode,
                   weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
                   coords: [crime.longitude, crime.latitude]
                 }
                 state.mapData.push(value)
@@ -251,6 +265,120 @@ export default new Vuex.Store({
                   crimetime: crime.crimetime,
                   crimecode: crime.crimecode,
                   weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.address !== null) {
+              if(crime.location === sortBy.address){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.inside_outside !== null) {
+              if(crime.inside_outside === sortBy.inside_outside){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.zip !== null) {
+              if(crime.post === sortBy.zip){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.district !== null) {
+              if(crime.district === sortBy.district){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.neighborhood !== null) {
+              if(crime.neighborhood === sortBy.neighborhood){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.premise !== null) {
+              if(crime.premise === sortBy.premise){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
                   coords: [crime.longitude, crime.latitude]
                 }
                 state.mapData.push(value)
@@ -262,6 +390,12 @@ export default new Vuex.Store({
                 crimetime: crime.crimetime,
                 crimecode: crime.crimecode,
                 weapon: crime.weapon,
+                address: crime.location,
+                inside_outside: crime.inside_outside,
+                zip: crime.post,
+                district: crime.district,
+                neighborhood: crime.neighborhood,
+                premise: crime.premise,
                 coords: [crime.longitude, crime.latitude]
               }
               state.mapData.push(value)
