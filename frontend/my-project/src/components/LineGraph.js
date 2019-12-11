@@ -1,10 +1,10 @@
 import {Line} from 'vue-chartjs'
-
 // Line Chart with the x-value always being the date/time; y-value being:
 // number of total crimes, crime by crimecode/weapon used/description/location/etc
 // TODO: A Reminder that Location will split into sub values such as postal and neighborhood
 export default {
   extends: Line,
+  props: ['data','options'],
   data () {
     return {
       gradient: null,
@@ -18,19 +18,37 @@ export default {
     this.gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)')
     this.gradient.addColorStop(1, 'rgba(255, 0, 0, 0)')
 
-    this.renderChart({
-      labels: this.$store.state.lineChart.timeframe,
-      datasets: [
-        {
-          label: this.$store.state.lineChart.dataFilter,
-          borderColor: '#FC2525',
-          pointBackgroundColor: 'white',
-          pointBorderColor: 'black',
-          borderWidth: 1,
-          backgroundColor: this.gradient,
-          data: this.$store.state.lineChart.amountArray
-        }
-      ]
-    }, {responsive: true, maintainAspectRatio: false})
+    this.renderLineChart()
+  },
+  computed: {
+    chartData:  {
+      get () {
+        return this.data
+      }
+    }
+  },
+  watch: {
+    data: function () {
+      this._chart.destroy()
+      this.renderLineChart()
+    }
+  },
+  methods: {
+    renderLineChart () {
+      this.renderChart({
+        labels: this.chartData.timeframe,
+        datasets: [
+          {
+            label: this.chartData.dataFilter,
+            borderColor: '#FC2525',
+            pointBackgroundColor: 'white',
+            pointBorderColor: 'black',
+            borderWidth: 1,
+            backgroundColor: this.gradient,
+            data: this.chartData.amountArray
+          }
+        ]
+      }, this.options)
+    }
   }
 }

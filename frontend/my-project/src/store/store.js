@@ -272,25 +272,54 @@ export default new Vuex.Store({
     },
     // default is set to a 24 day of the latest day in the dataset
     // TODO: set defaults for the data sets in the application startup
-    formatLineGraph (state) {
+    formatLineGraph (state, sortBy) {
       // Defualts set here since we have no other spot to atm
-      state.lineChart.timeframe = state.hours
-      state.lineChart.dataFilter = 'totalCrimes'
+      state.lineChart.timeframe = state.crimeframe
+      state.lineChart.amountArray = []
+      let count = 0
 
-      // sets data based on dataFilter
-      if (state.lineChart.dataFilter === 'totalCrimes') {
-        let count = 0
-        // TODO: switch for date and time, match for specific date, and factor in minutes
-        // TODO: ask to round the times from backend
-        for (let dateTime of state.lineChart.timeframe) {
-          state.lineChart.amountArray[count] = 0
-          for (let crimeData of state.defaultData) {
-            if (crimeData.crimetime === dateTime) {
+      // set size matching with crimeframe
+      let day = 0
+      for (let date of state.crimeframe) {
+        state.lineChart.amountArray[day] = 0
+        day++
+      }
+
+      if (sortBy.weaponType !== null) {
+        state.lineChart.dataFilter = 'weapon type:' + sortBy.weaponType
+        state.defaultData.forEach(function (crimeData) {
+          count = 0
+          for (let date of state.crimeframe) {
+            if (date === moment(crimeData.crimedate).format('YYYY-MM-DD')
+              && sortBy.weaponType === crimeData.weapon){
               state.lineChart.amountArray[count] = state.lineChart.amountArray[count] + 1
             }
+            count++
           }
-          count++
-        }
+        })
+      } else if (sortBy.crimecode !== null) {
+        state.lineChart.dataFilter = 'crimecode: ' + sortBy.crimecode
+        state.defaultData.forEach(function (crimeData) {
+          count = 0
+          for (let date of state.crimeframe) {
+            if (date === moment(crimeData.crimedate).format('YYYY-MM-DD')
+              && sortBy.crimecode === crimeData.crimecode){
+              state.lineChart.amountArray[count] = state.lineChart.amountArray[count] + 1
+            }
+            count++
+          }
+        })
+      } else {
+          state.lineChart.dataFilter = 'total crimes'
+          state.defaultData.forEach(function (crimeData) {
+            count = 0
+            for (let date of state.crimeframe) {
+              if (date === moment(crimeData.crimedate).format('YYYY-MM-DD')){
+                state.lineChart.amountArray[count] = state.lineChart.amountArray[count] + 1
+              }
+              count++
+            }
+          })
       }
     },
     formatDonut (state) {

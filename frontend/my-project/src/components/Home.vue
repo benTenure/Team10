@@ -171,8 +171,8 @@
     <v-flex>
       <section id="LineChart">
       <div class="chart">
-        <h2>Linechart example with total crimes by time of day</h2>
-        <line-graph class="chart"></line-graph>
+        <h2>Linechart</h2>
+        <line-graph class="chart" :data="lineChart" :options="{responsive: true, maintainAspectRatio: false}"></line-graph>
       </div>
       </section>
       <section id="PieChart">
@@ -206,6 +206,7 @@ import BarChart from './BarChart.js'
 import DoughnutChart from './DoughnutChart.js'
 import MapDataSet from './Map'
 import axios from 'axios'
+import moment from 'moment'
 export default {
   components: {LineGraph, BarChart, DoughnutChart, MapDataSet},
   data: () => ({
@@ -243,6 +244,9 @@ export default {
       },
       weaponTypes () {
           return this.$store.state.weaponTypes
+      },
+      lineChart () {
+          return this.$store.state.lineChart
       }
   },
   watch: {
@@ -290,6 +294,7 @@ export default {
           }
 
           this.$store.commit('formatMapData', this.sortBy)
+          this.$store.commit('formatLineGraph', this.sortBy)
           this.dialog = false
       },
       closeFilterDialog () {

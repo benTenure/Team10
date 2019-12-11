@@ -6,7 +6,7 @@
 
 <script>
 import axios from 'axios'
-import moment from "moment";
+import moment from "moment"
 
 export default {
   name: 'App',
@@ -17,11 +17,11 @@ export default {
       endDefaultDate: null
   }),
   created () {
-      // 2 months as a default
-      this.startDefaultDate = moment().subtract(2, 'months' ).format('YYYY-MM-DD')
+      // 3 months as a default
+      this.startDefaultDate = moment().subtract(3, 'months' ).format('YYYY-MM-DD')
       this.endDefaultDate = moment().format('YYYY-MM-DD')
       this.$store.commit('updateCrimeframe', {startDate: this.startDefaultDate, endDate: this.endDefaultDate})
-      this.$store.commit('formatLineGraph')
+      this.$store.commit('formatLineGraph', { weaponType: null, crimecode: null})
       this.$store.commit('formatBarGraph')
       this.$store.commit('formatDonut')
       this.$store.commit('formatMapData', {})
