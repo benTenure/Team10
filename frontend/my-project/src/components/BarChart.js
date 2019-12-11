@@ -2,6 +2,7 @@ import {Bar} from 'vue-chartjs'
 
 export default {
   extends: Bar,
+  props: ['data','options'],
   data () {
     return {
       gradient: null
@@ -13,15 +14,35 @@ export default {
     this.gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)') // show this color at 50%
     this.gradient.addColorStop(1, 'rgba(145, 67, 204, 0.46)') // show this color at 100%
 
-    this.renderChart({
-      labels: this.$store.state.barGraph.dataFilterTypes,
-      datasets: [
-        {
-          label: this.$store.state.barGraph.dataFilter,
-          backgroundColor: this.gradient,
-          data: this.$store.state.barGraph.amountArray
-        }
-      ]
-    }, {responsive: true, maintainAspectRatio: false})
+    this.renderBarChart()
+  },
+  computed: {
+    chartData:  {
+      get () {
+        return this.data
+      }
+    }
+  },
+  watch: {
+    data: {
+      handler() {
+        this.renderBarChart()
+      },
+      deep: true
+    }
+  },
+  methods: {
+    renderBarChart () {
+      this.renderChart({
+        labels: this.chartData.dataFilterTypes,
+        datasets: [
+          {
+            label: this.chartData.dataFilter,
+            backgroundColor: this.gradient,
+            data: this.chartData.amountArray
+          }
+        ]
+      }, this.options)
+    }
   }
 }

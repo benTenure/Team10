@@ -171,6 +171,7 @@ const state = {
   filterTypes: [],
   districts: ['CENTRAL', 'EASTERN', 'NORTHEAST', 'NORTHERN', 'NORTHWEST', 'SOUTHEAST', 'SOUTHERN', 'SOUTHWEST', 'UNKNOWN', 'WESTERN'],
   weaponTypes: ['NA', 'FIREARM', 'OTHER', 'KNIFE', 'HANDS', 'FIRE'],
+  locationTypes: ['Address', 'Inside/Outside', 'Zip Code', 'District', 'Neighborhood', 'Building Type'],
   hours: ['00:00:00', '01:00:00', '02:00:00', '03:00:00', '04:00:00', '05:00:00', '06:00:00', '07:00:00', '08:00:00', '09:00:00', '10:00:00',
     '11:00:00', '12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00',
     '23:00:00'],
@@ -211,6 +212,7 @@ export default new Vuex.Store({
       state.crimeframeRange = {startDate: moment(betweenDates.startDate), endDate: moment(betweenDates.endDate)}
     },
     formatMapData (state, sortBy) {
+      //TODO: clean up
       if (state.mapData.length === 0) {
         for (let crime of state.defaultData) {
           let value = {
@@ -219,6 +221,12 @@ export default new Vuex.Store({
             crimetime: crime.crimetime,
             crimecode: crime.crimecode,
             weapon: crime.weapon,
+            address: crime.location,
+            inside_outside: crime.inside_outside,
+            zip: crime.post,
+            district: crime.district,
+            neighborhood: crime.neighborhood,
+            premise: crime.premise,
             coords: [crime.longitude, crime.latitude]
           }
           state.mapData.push(value)
@@ -239,6 +247,12 @@ export default new Vuex.Store({
                   crimetime: crime.crimetime,
                   crimecode: crime.crimecode,
                   weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
                   coords: [crime.longitude, crime.latitude]
                 }
                 state.mapData.push(value)
@@ -251,6 +265,120 @@ export default new Vuex.Store({
                   crimetime: crime.crimetime,
                   crimecode: crime.crimecode,
                   weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.address !== null) {
+              if(crime.location === sortBy.address){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.inside_outside !== null) {
+              if(crime.inside_outside === sortBy.inside_outside){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.zip !== null) {
+              if(crime.post === sortBy.zip){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.district !== null) {
+              if(crime.district === sortBy.district){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.neighborhood !== null) {
+              if(crime.neighborhood === sortBy.neighborhood){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.premise !== null) {
+              if(crime.premise === sortBy.premise){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
                   coords: [crime.longitude, crime.latitude]
                 }
                 state.mapData.push(value)
@@ -262,6 +390,12 @@ export default new Vuex.Store({
                 crimetime: crime.crimetime,
                 crimecode: crime.crimecode,
                 weapon: crime.weapon,
+                address: crime.location,
+                inside_outside: crime.inside_outside,
+                zip: crime.post,
+                district: crime.district,
+                neighborhood: crime.neighborhood,
+                premise: crime.premise,
                 coords: [crime.longitude, crime.latitude]
               }
               state.mapData.push(value)
@@ -272,36 +406,97 @@ export default new Vuex.Store({
     },
     // default is set to a 24 day of the latest day in the dataset
     // TODO: set defaults for the data sets in the application startup
-    formatLineGraph (state) {
+    formatLineGraph (state, sortBy) {
       // Defualts set here since we have no other spot to atm
-      state.lineChart.timeframe = state.hours
-      state.lineChart.dataFilter = 'totalCrimes'
+      state.lineChart.timeframe = state.crimeframe
+      state.lineChart.amountArray = []
+      let count = 0
 
-      // sets data based on dataFilter
-      if (state.lineChart.dataFilter === 'totalCrimes') {
-        let count = 0
-        // TODO: switch for date and time, match for specific date, and factor in minutes
-        // TODO: ask to round the times from backend
-        for (let dateTime of state.lineChart.timeframe) {
-          state.lineChart.amountArray[count] = 0
-          for (let crimeData of state.defaultData) {
-            if (crimeData.crimetime === dateTime) {
+      // set size matching with crimeframe
+      let day = 0
+      for (let date of state.crimeframe) {
+        state.lineChart.amountArray[day] = 0
+        day++
+      }
+
+      if (sortBy.weaponType !== null) {
+        state.lineChart.dataFilter = 'weapon type:' + sortBy.weaponType
+        state.defaultData.forEach(function (crimeData) {
+          count = 0
+          for (let date of state.crimeframe) {
+            if (date === moment(crimeData.crimedate).format('YYYY-MM-DD')
+              && sortBy.weaponType === crimeData.weapon){
               state.lineChart.amountArray[count] = state.lineChart.amountArray[count] + 1
             }
+            count++
           }
-          count++
-        }
+        })
+      } else if (sortBy.crimecode !== null) {
+        state.lineChart.dataFilter = 'crimecode: ' + sortBy.crimecode
+        state.defaultData.forEach(function (crimeData) {
+          count = 0
+          for (let date of state.crimeframe) {
+            if (date === moment(crimeData.crimedate).format('YYYY-MM-DD')
+              && sortBy.crimecode === crimeData.crimecode){
+              state.lineChart.amountArray[count] = state.lineChart.amountArray[count] + 1
+            }
+            count++
+          }
+        })
+      } else {
+          state.lineChart.dataFilter = 'total crimes'
+          state.defaultData.forEach(function (crimeData) {
+            count = 0
+            for (let date of state.crimeframe) {
+              if (date === moment(crimeData.crimedate).format('YYYY-MM-DD')){
+                state.lineChart.amountArray[count] = state.lineChart.amountArray[count] + 1
+              }
+              count++
+            }
+          })
       }
     },
-    formatDonut (state) {
+    formatDonut (state, sortBy) {
       // Defualts set here since we have no other spot to atm
-      state.doughnutGraph.timeframe = state.hours
-      state.doughnutGraph.dataFilter = 'weapons'
-      state.doughnutGraph.dataFilterTypes = state.weaponTypes
+      state.doughnutGraph.timeframe = state.crimeframe
+      state.doughnutGraph.dataFilterTypes = []
+      state.doughnutGraph.amountArray = []
 
-      // sets data based on dataFilter
-      if (state.doughnutGraph.dataFilter === 'weapons') {
-        // TODO: find a way to do this better
+      // shows all crimecodes instead of just one
+      if (sortBy.crimecode != null) {
+        state.doughnutGraph.dataFilter = 'crimecodes'
+        state.defaultData.forEach(function (crimeData) {
+          console.log(state.doughnutGraph.dataFilterTypes.indexOf(crimeData.crimecode))
+          // add crimecode to list or mark if one exists
+          if (moment(crimeData.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
+            if (state.doughnutGraph.dataFilterTypes.indexOf(crimeData.crimecode) > -1) {
+              state.doughnutGraph.amountArray[state.doughnutGraph.dataFilterTypes.indexOf(crimeData.crimecode)]++
+            } else {
+              state.doughnutGraph.dataFilterTypes.push(crimeData.crimecode)
+              state.doughnutGraph.amountArray[state.doughnutGraph.dataFilterTypes.indexOf(crimeData.crimecode)] = 1
+            }
+          }
+        })
+      } else if (sortBy.weaponType != null) {
+        state.doughnutGraph.dataFilter = 'weapon types'
+        state.doughnutGraph.dataFilterTypes = state.weaponTypes
+
+        let day = 0
+        for (let date of state.weaponTypes) {
+          state.doughnutGraph.amountArray[day] = 0
+          day++
+        }
+
+        state.defaultData.forEach(function (crimeData) {
+          if (moment(crimeData.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
+            state.doughnutGraph.amountArray[state.doughnutGraph.dataFilterTypes.indexOf(crimeData.weapon)] =
+              state.doughnutGraph.amountArray[state.doughnutGraph.dataFilterTypes.indexOf(crimeData.weapon)] + 1
+          }
+        })
+      } else {
+        // TODO: Change to a new default for 'total crimes'
+        state.doughnutGraph.dataFilter = 'weapons'
+        state.doughnutGraph.dataFilterTypes = state.weaponTypes
         for (let val = 0; val < 6; val++) {
           state.doughnutGraph.amountArray[val] = 0
         }
@@ -324,12 +519,64 @@ export default new Vuex.Store({
         }
       }
     },
-    formatBarGraph (state) {
+    formatBarGraph (state, sortBy) {
       // Defualts set here since we have no other spot to atm
-      state.barGraph.timeframe = state.hours
-      state.barGraph.dataFilter = 'district'
-      state.barGraph.dataFilterTypes = state.districts
+      state.barGraph.timeframe = state.crimeframe
+      state.barGraph.dataFilterTypes = []
+      state.barGraph.amountArray = []
 
+      // shows all crimecodes instead of just one
+      if (sortBy.crimecode != null) {
+        state.barGraph.dataFilter = 'crimecodes'
+        state.defaultData.forEach(function (crimeData) {
+          console.log(state.barGraph.dataFilterTypes.indexOf(crimeData.crimecode))
+          // add crimecode to list or mark if one exists
+          if (moment(crimeData.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
+            if (state.barGraph.dataFilterTypes.indexOf(crimeData.crimecode) > -1) {
+              state.barGraph.amountArray[state.barGraph.dataFilterTypes.indexOf(crimeData.crimecode)]++
+            } else {
+              state.barGraph.dataFilterTypes.push(crimeData.crimecode)
+              state.barGraph.amountArray[state.barGraph.dataFilterTypes.indexOf(crimeData.crimecode)] = 1
+            }
+          }
+        })
+      } else if (sortBy.weaponType != null) {
+        state.barGraph.dataFilter = 'weapon types'
+        state.barGraph.dataFilterTypes = state.weaponTypes
+
+        let day = 0
+        for (let date of state.weaponTypes) {
+          state.barGraph.amountArray[day] = 0
+          day++
+        }
+
+        state.defaultData.forEach(function (crimeData) {
+          if (moment(crimeData.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
+            state.barGraph.amountArray[state.barGraph.dataFilterTypes.indexOf(crimeData.weapon)] =
+              state.barGraph.amountArray[state.barGraph.dataFilterTypes.indexOf(crimeData.weapon)] + 1
+          }
+        })
+      } else {
+        state.barGraph.dataFilterTypes = state.crimeframe
+        state.barGraph.dataFilter = 'total crimes'
+
+        // set size matching with crimeframe
+        let day = 0
+        for (let date of state.crimeframe) {
+          state.barGraph.amountArray[day] = 0
+          day++
+        }
+
+        state.defaultData.forEach(function (crimeData) {
+          let count = 0
+          for (let date of state.crimeframe) {
+            if (date === moment(crimeData.crimedate).format('YYYY-MM-DD')){
+              state.barGraph.amountArray[count] = state.barGraph.amountArray[count] + 1
+            }
+            count++
+          }
+        })
+      }
       // sets data based on dataFilter
       if (state.barGraph.dataFilter === 'district') {
         // TODO: make sure data is sorted by time
@@ -338,35 +585,30 @@ export default new Vuex.Store({
         }
         for (let crimeData of state.defaultData) {
           // ['CENTRAL', 'EASTERN', 'NORTHEAST', 'NORTHERN', 'NORTHWEST', 'SOUTHEAST', 'SOUTHERN', 'SOUTHWEST', 'UNKNOWN', 'WESTERN'],
-          if (crimeData.district === 'CENTRAL') {
-            state.barGraph.amountArray[0] = state.barGraph.amountArray[0] + 1
-          } else if (crimeData.district === 'EASTERN') {
-            state.barGraph.amountArray[1] = state.barGraph.amountArray[1] + 1
-          } else if (crimeData.district === 'NORTHEAST') {
-            state.barGraph.amountArray[2] = state.barGraph.amountArray[2] + 1
-          } else if (crimeData.district === 'NORTHERN') {
-            state.barGraph.amountArray[3] = state.barGraph.amountArray[3] + 1
-          } else if (crimeData.district === 'NORTHWEST') {
-            state.barGraph.amountArray[4] = state.barGraph.amountArray[4] + 1
-          } else if (crimeData.district === 'SOUTHEAST') {
-            state.barGraph.amountArray[5] = state.barGraph.amountArray[5] + 1
-          } else if (crimeData.district === 'SOUTHERN') {
-            state.barGraph.amountArray[6] = state.barGraph.amountArray[6] + 1
-          } else if (crimeData.district === 'SOUTHWEST') {
-            state.barGraph.amountArray[7] = state.barGraph.amountArray[7] + 1
-          } else if (crimeData.district === 'UNKNOWN') {
-            state.barGraph.amountArray[8] = state.barGraph.amountArray[8] + 1
-          } else {
-            state.barGraph.amountArray[9] = state.barGraph.amountArray[9] + 1
-          }
+          // if (crimeData.district === 'CENTRAL') {
+          //   state.barGraph.amountArray[0] = state.barGraph.amountArray[0] + 1
+          // } else if (crimeData.district === 'EASTERN') {
+          //   state.barGraph.amountArray[1] = state.barGraph.amountArray[1] + 1
+          // } else if (crimeData.district === 'NORTHEAST') {
+          //   state.barGraph.amountArray[2] = state.barGraph.amountArray[2] + 1
+          // } else if (crimeData.district === 'NORTHERN') {
+          //   state.barGraph.amountArray[3] = state.barGraph.amountArray[3] + 1
+          // } else if (crimeData.district === 'NORTHWEST') {
+          //   state.barGraph.amountArray[4] = state.barGraph.amountArray[4] + 1
+          // } else if (crimeData.district === 'SOUTHEAST') {
+          //   state.barGraph.amountArray[5] = state.barGraph.amountArray[5] + 1
+          // } else if (crimeData.district === 'SOUTHERN') {
+          //   state.barGraph.amountArray[6] = state.barGraph.amountArray[6] + 1
+          // } else if (crimeData.district === 'SOUTHWEST') {
+          //   state.barGraph.amountArray[7] = state.barGraph.amountArray[7] + 1
+          // } else if (crimeData.district === 'UNKNOWN') {
+          //   state.barGraph.amountArray[8] = state.barGraph.amountArray[8] + 1
+          // } else {
+          //   state.barGraph.amountArray[9] = state.barGraph.amountArray[9] + 1
+          // }
+
         }
       }
     }
-  },
-  actions: {
-
-  },
-  getters: {
-
   }
 })
