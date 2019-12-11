@@ -1,4 +1,9 @@
 <?php
+/*
+ * dataPoint.php
+ * Author: Team 10
+ * This file produces the actual queries to execute
+ */
 
 class dataPoint
 {
