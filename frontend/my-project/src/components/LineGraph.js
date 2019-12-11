@@ -28,9 +28,11 @@ export default {
     }
   },
   watch: {
-    data: function () {
-      this._chart.destroy()
-      this.renderLineChart()
+    data: {
+      handler() {
+        this.renderLineChart()
+      },
+      deep: true
     }
   },
   methods: {

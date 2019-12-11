@@ -322,15 +322,47 @@ export default new Vuex.Store({
           })
       }
     },
-    formatDonut (state) {
+    formatDonut (state, sortBy) {
       // Defualts set here since we have no other spot to atm
-      state.doughnutGraph.timeframe = state.hours
-      state.doughnutGraph.dataFilter = 'weapons'
-      state.doughnutGraph.dataFilterTypes = state.weaponTypes
+      state.doughnutGraph.timeframe = state.crimeframe
+      state.doughnutGraph.dataFilterTypes = []
+      state.doughnutGraph.amountArray = []
 
-      // sets data based on dataFilter
-      if (state.doughnutGraph.dataFilter === 'weapons') {
-        // TODO: find a way to do this better
+      // shows all crimecodes instead of just one
+      if (sortBy.crimecode != null) {
+        state.doughnutGraph.dataFilter = 'crimecodes'
+        state.defaultData.forEach(function (crimeData) {
+          console.log(state.doughnutGraph.dataFilterTypes.indexOf(crimeData.crimecode))
+          // add crimecode to list or mark if one exists
+          if (moment(crimeData.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
+            if (state.doughnutGraph.dataFilterTypes.indexOf(crimeData.crimecode) > -1) {
+              state.doughnutGraph.amountArray[state.doughnutGraph.dataFilterTypes.indexOf(crimeData.crimecode)]++
+            } else {
+              state.doughnutGraph.dataFilterTypes.push(crimeData.crimecode)
+              state.doughnutGraph.amountArray[state.doughnutGraph.dataFilterTypes.indexOf(crimeData.crimecode)] = 1
+            }
+          }
+        })
+      } else if (sortBy.weaponType != null) {
+        state.doughnutGraph.dataFilter = 'weapon types'
+        state.doughnutGraph.dataFilterTypes = state.weaponTypes
+
+        let day = 0
+        for (let date of state.weaponTypes) {
+          state.doughnutGraph.amountArray[day] = 0
+          day++
+        }
+
+        state.defaultData.forEach(function (crimeData) {
+          if (moment(crimeData.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
+            state.doughnutGraph.amountArray[state.doughnutGraph.dataFilterTypes.indexOf(crimeData.weapon)] =
+              state.doughnutGraph.amountArray[state.doughnutGraph.dataFilterTypes.indexOf(crimeData.weapon)] + 1
+          }
+        })
+      } else {
+        // TODO: Change to a new default for 'total crimes'
+        state.doughnutGraph.dataFilter = 'weapons'
+        state.doughnutGraph.dataFilterTypes = state.weaponTypes
         for (let val = 0; val < 6; val++) {
           state.doughnutGraph.amountArray[val] = 0
         }
@@ -353,12 +385,64 @@ export default new Vuex.Store({
         }
       }
     },
-    formatBarGraph (state) {
+    formatBarGraph (state, sortBy) {
       // Defualts set here since we have no other spot to atm
-      state.barGraph.timeframe = state.hours
-      state.barGraph.dataFilter = 'district'
-      state.barGraph.dataFilterTypes = state.districts
+      state.barGraph.timeframe = state.crimeframe
+      state.barGraph.dataFilterTypes = []
+      state.barGraph.amountArray = []
 
+      // shows all crimecodes instead of just one
+      if (sortBy.crimecode != null) {
+        state.barGraph.dataFilter = 'crimecodes'
+        state.defaultData.forEach(function (crimeData) {
+          console.log(state.barGraph.dataFilterTypes.indexOf(crimeData.crimecode))
+          // add crimecode to list or mark if one exists
+          if (moment(crimeData.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
+            if (state.barGraph.dataFilterTypes.indexOf(crimeData.crimecode) > -1) {
+              state.barGraph.amountArray[state.barGraph.dataFilterTypes.indexOf(crimeData.crimecode)]++
+            } else {
+              state.barGraph.dataFilterTypes.push(crimeData.crimecode)
+              state.barGraph.amountArray[state.barGraph.dataFilterTypes.indexOf(crimeData.crimecode)] = 1
+            }
+          }
+        })
+      } else if (sortBy.weaponType != null) {
+        state.barGraph.dataFilter = 'weapon types'
+        state.barGraph.dataFilterTypes = state.weaponTypes
+
+        let day = 0
+        for (let date of state.weaponTypes) {
+          state.barGraph.amountArray[day] = 0
+          day++
+        }
+
+        state.defaultData.forEach(function (crimeData) {
+          if (moment(crimeData.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
+            state.barGraph.amountArray[state.barGraph.dataFilterTypes.indexOf(crimeData.weapon)] =
+              state.barGraph.amountArray[state.barGraph.dataFilterTypes.indexOf(crimeData.weapon)] + 1
+          }
+        })
+      } else {
+        state.barGraph.dataFilterTypes = state.crimeframe
+        state.barGraph.dataFilter = 'total crimes'
+
+        // set size matching with crimeframe
+        let day = 0
+        for (let date of state.crimeframe) {
+          state.barGraph.amountArray[day] = 0
+          day++
+        }
+
+        state.defaultData.forEach(function (crimeData) {
+          let count = 0
+          for (let date of state.crimeframe) {
+            if (date === moment(crimeData.crimedate).format('YYYY-MM-DD')){
+              state.barGraph.amountArray[count] = state.barGraph.amountArray[count] + 1
+            }
+            count++
+          }
+        })
+      }
       // sets data based on dataFilter
       if (state.barGraph.dataFilter === 'district') {
         // TODO: make sure data is sorted by time
@@ -367,35 +451,30 @@ export default new Vuex.Store({
         }
         for (let crimeData of state.defaultData) {
           // ['CENTRAL', 'EASTERN', 'NORTHEAST', 'NORTHERN', 'NORTHWEST', 'SOUTHEAST', 'SOUTHERN', 'SOUTHWEST', 'UNKNOWN', 'WESTERN'],
-          if (crimeData.district === 'CENTRAL') {
-            state.barGraph.amountArray[0] = state.barGraph.amountArray[0] + 1
-          } else if (crimeData.district === 'EASTERN') {
-            state.barGraph.amountArray[1] = state.barGraph.amountArray[1] + 1
-          } else if (crimeData.district === 'NORTHEAST') {
-            state.barGraph.amountArray[2] = state.barGraph.amountArray[2] + 1
-          } else if (crimeData.district === 'NORTHERN') {
-            state.barGraph.amountArray[3] = state.barGraph.amountArray[3] + 1
-          } else if (crimeData.district === 'NORTHWEST') {
-            state.barGraph.amountArray[4] = state.barGraph.amountArray[4] + 1
-          } else if (crimeData.district === 'SOUTHEAST') {
-            state.barGraph.amountArray[5] = state.barGraph.amountArray[5] + 1
-          } else if (crimeData.district === 'SOUTHERN') {
-            state.barGraph.amountArray[6] = state.barGraph.amountArray[6] + 1
-          } else if (crimeData.district === 'SOUTHWEST') {
-            state.barGraph.amountArray[7] = state.barGraph.amountArray[7] + 1
-          } else if (crimeData.district === 'UNKNOWN') {
-            state.barGraph.amountArray[8] = state.barGraph.amountArray[8] + 1
-          } else {
-            state.barGraph.amountArray[9] = state.barGraph.amountArray[9] + 1
-          }
+          // if (crimeData.district === 'CENTRAL') {
+          //   state.barGraph.amountArray[0] = state.barGraph.amountArray[0] + 1
+          // } else if (crimeData.district === 'EASTERN') {
+          //   state.barGraph.amountArray[1] = state.barGraph.amountArray[1] + 1
+          // } else if (crimeData.district === 'NORTHEAST') {
+          //   state.barGraph.amountArray[2] = state.barGraph.amountArray[2] + 1
+          // } else if (crimeData.district === 'NORTHERN') {
+          //   state.barGraph.amountArray[3] = state.barGraph.amountArray[3] + 1
+          // } else if (crimeData.district === 'NORTHWEST') {
+          //   state.barGraph.amountArray[4] = state.barGraph.amountArray[4] + 1
+          // } else if (crimeData.district === 'SOUTHEAST') {
+          //   state.barGraph.amountArray[5] = state.barGraph.amountArray[5] + 1
+          // } else if (crimeData.district === 'SOUTHERN') {
+          //   state.barGraph.amountArray[6] = state.barGraph.amountArray[6] + 1
+          // } else if (crimeData.district === 'SOUTHWEST') {
+          //   state.barGraph.amountArray[7] = state.barGraph.amountArray[7] + 1
+          // } else if (crimeData.district === 'UNKNOWN') {
+          //   state.barGraph.amountArray[8] = state.barGraph.amountArray[8] + 1
+          // } else {
+          //   state.barGraph.amountArray[9] = state.barGraph.amountArray[9] + 1
+          // }
+
         }
       }
     }
-  },
-  actions: {
-
-  },
-  getters: {
-
   }
 })

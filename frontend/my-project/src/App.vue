@@ -14,16 +14,17 @@ export default {
       msg: 'hello',
       moveToStore: {},
       startDefaultDate: null,
-      endDefaultDate: null
+      endDefaultDate: null,
+      sortBy: { weaponType: null, crimecode: null}
   }),
   created () {
       // 3 months as a default
       this.startDefaultDate = moment().subtract(3, 'months' ).format('YYYY-MM-DD')
       this.endDefaultDate = moment().format('YYYY-MM-DD')
       this.$store.commit('updateCrimeframe', {startDate: this.startDefaultDate, endDate: this.endDefaultDate})
-      this.$store.commit('formatLineGraph', { weaponType: null, crimecode: null})
-      this.$store.commit('formatBarGraph')
-      this.$store.commit('formatDonut')
+      this.$store.commit('formatLineGraph', this.sortBy)
+      this.$store.commit('formatBarGraph', this.sortBy)
+      this.$store.commit('formatDonut', this.sortBy)
       this.$store.commit('formatMapData', {})
       this.intialLoad()
   },

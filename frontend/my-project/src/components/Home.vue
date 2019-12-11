@@ -177,14 +177,14 @@
       </section>
       <section id="PieChart">
       <div class="chart">
-        <h2>Weapon Distribution Pie chart</h2>
-        <doughnut-chart class="chart"></doughnut-chart>
+        <h2>Pie chart (default is weapons)</h2>
+        <doughnut-chart class="chart" :data="doughnutGraph" :options="{responsive: true, maintainAspectRatio: false}"></doughnut-chart>
       </div>
       </section>
       <section id="BarChart">
       <div class="chart" >
-        <h2>Barchart based on district</h2>
-        <bar-chart class="chart"></bar-chart>
+        <h2>Barchart</h2>
+        <bar-chart class="chart" :data="barChart" :options="{responsive: true, maintainAspectRatio: false}"></bar-chart>
       </div>
       </section>
       <section id="Map">
@@ -247,6 +247,12 @@ export default {
       },
       lineChart () {
           return this.$store.state.lineChart
+      },
+      barChart () {
+          return this.$store.state.barGraph
+      },
+      doughnutGraph () {
+          return this.$store.state.doughnutGraph
       }
   },
   watch: {
@@ -262,6 +268,9 @@ export default {
         } else if (this.sortFilter === 'crimeCodeSort') {
             this.weaponTypeSelector = false
             this.userStringFilterSelector = true
+        } else {
+            this.weaponTypeSelector = false
+            this.userStringFilterSelector = false
         }
       },
       selectSorting () {
@@ -295,6 +304,8 @@ export default {
 
           this.$store.commit('formatMapData', this.sortBy)
           this.$store.commit('formatLineGraph', this.sortBy)
+          this.$store.commit('formatBarGraph', this.sortBy)
+          this.$store.commit('formatDonut', this.sortBy)
           this.dialog = false
       },
       closeFilterDialog () {
