@@ -12,11 +12,13 @@ export default {
   name: 'App',
   data: () => ({
       msg: 'hello',
+      data: null,
       startDefaultDate: null,
       endDefaultDate: null,
       sortBy: {
           weaponType: null,
           crimecode: null,
+          description: null,
           address: null,
           inside_outside: null,
           zip: null,
@@ -43,15 +45,21 @@ export default {
                   dateAfter: moment(this.endDefaultDate).format('YYYYMMDD')
               }
           })
-          .then(function (response) {
-              this.setToStore(data)
+          .then((response) => {
+              this.setToStore(response.data)
+
           })
           .catch(function (error) {
             console.log(error)
           })
       },
       setToStore (data) {
-          this.$store.state.defaultData = data
+          this.$store.state.defaultData = data.data
+          this.$store.commit('updateCrimeframe', {startDate: this.startDefaultDate, endDate: this.endDefaultDate})
+          this.$store.commit('formatLineGraph', this.sortBy)
+          this.$store.commit('formatBarGraph', this.sortBy)
+          this.$store.commit('formatDonut', this.sortBy)
+          this.$store.commit('formatMapData', this.sortBy)
       }
   }
 }

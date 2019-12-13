@@ -175,6 +175,8 @@ const state = {
   hours: ['00:00:00', '01:00:00', '02:00:00', '03:00:00', '04:00:00', '05:00:00', '06:00:00', '07:00:00', '08:00:00', '09:00:00', '10:00:00',
     '11:00:00', '12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00',
     '23:00:00'],
+  crimeDescriptions: ['LARCENY', 'COMMON ASSAULT', 'BURGLARY', 'LARCENY FROM AUTO', 'AGG. ASSAULT', 'AUTO THEFT', 'ROBBERY - STREET', 'ROBBERY - COMMERCIAL',
+  'SHOOTING', 'ROBBERY - RESIDENCE', 'ROBBERY - CARJACKING', 'RAPE','OTHER'],
   mapData: [],
   lineChart: {
     timeframe: [],
@@ -221,6 +223,7 @@ export default new Vuex.Store({
             crimetime: crime.crimetime,
             crimecode: crime.crimecode,
             weapon: crime.weapon,
+            description: crime.description,
             address: crime.location,
             inside_outside: crime.inside_outside,
             zip: crime.post,
@@ -247,6 +250,26 @@ export default new Vuex.Store({
                   crimetime: crime.crimetime,
                   crimecode: crime.crimecode,
                   weapon: crime.weapon,
+                  description: crime.description,
+                  address: crime.location,
+                  inside_outside: crime.inside_outside,
+                  zip: crime.post,
+                  district: crime.district,
+                  neighborhood: crime.neighborhood,
+                  premise: crime.premise,
+                  coords: [crime.longitude, crime.latitude]
+                }
+                state.mapData.push(value)
+              }
+            } else if (sortBy.description !== null) {
+              if(crime.description === sortBy.description){
+                let value = {
+                  id: crime.id,
+                  crimedate: crime.crimedate,
+                  crimetime: crime.crimetime,
+                  crimecode: crime.crimecode,
+                  weapon: crime.weapon,
+                  description: crime.description,
                   address: crime.location,
                   inside_outside: crime.inside_outside,
                   zip: crime.post,
@@ -265,6 +288,7 @@ export default new Vuex.Store({
                   crimetime: crime.crimetime,
                   crimecode: crime.crimecode,
                   weapon: crime.weapon,
+                  description: crime.description,
                   address: crime.location,
                   inside_outside: crime.inside_outside,
                   zip: crime.post,
@@ -283,6 +307,7 @@ export default new Vuex.Store({
                   crimetime: crime.crimetime,
                   crimecode: crime.crimecode,
                   weapon: crime.weapon,
+                  description: crime.description,
                   address: crime.location,
                   inside_outside: crime.inside_outside,
                   zip: crime.post,
@@ -301,6 +326,7 @@ export default new Vuex.Store({
                   crimetime: crime.crimetime,
                   crimecode: crime.crimecode,
                   weapon: crime.weapon,
+                  description: crime.description,
                   address: crime.location,
                   inside_outside: crime.inside_outside,
                   zip: crime.post,
@@ -319,6 +345,7 @@ export default new Vuex.Store({
                   crimetime: crime.crimetime,
                   crimecode: crime.crimecode,
                   weapon: crime.weapon,
+                  description: crime.description,
                   address: crime.location,
                   inside_outside: crime.inside_outside,
                   zip: crime.post,
@@ -337,6 +364,7 @@ export default new Vuex.Store({
                   crimetime: crime.crimetime,
                   crimecode: crime.crimecode,
                   weapon: crime.weapon,
+                  description: crime.description,
                   address: crime.location,
                   inside_outside: crime.inside_outside,
                   zip: crime.post,
@@ -355,6 +383,7 @@ export default new Vuex.Store({
                   crimetime: crime.crimetime,
                   crimecode: crime.crimecode,
                   weapon: crime.weapon,
+                  description: crime.description,
                   address: crime.location,
                   inside_outside: crime.inside_outside,
                   zip: crime.post,
@@ -373,6 +402,7 @@ export default new Vuex.Store({
                   crimetime: crime.crimetime,
                   crimecode: crime.crimecode,
                   weapon: crime.weapon,
+                  description: crime.description,
                   address: crime.location,
                   inside_outside: crime.inside_outside,
                   zip: crime.post,
@@ -390,6 +420,7 @@ export default new Vuex.Store({
                 crimetime: crime.crimetime,
                 crimecode: crime.crimecode,
                 weapon: crime.weapon,
+                description: crime.description,
                 address: crime.location,
                 inside_outside: crime.inside_outside,
                 zip: crime.post,
@@ -443,6 +474,18 @@ export default new Vuex.Store({
             count++
           }
         })
+      } else if (sortBy.description !== null) {
+        state.lineChart.dataFilter = 'description: ' + sortBy.description
+        state.defaultData.forEach(function (crimeData) {
+          count = 0
+          for (let date of state.crimeframe) {
+            if (date === moment(crimeData.crimedate).format('YYYY-MM-DD')
+              && sortBy.description === crimeData.description){
+              state.lineChart.amountArray[count] = state.lineChart.amountArray[count] + 1
+            }
+            count++
+          }
+        })
       } else {
           state.lineChart.dataFilter = 'total crimes'
           state.defaultData.forEach(function (crimeData) {
@@ -491,6 +534,22 @@ export default new Vuex.Store({
           if (moment(crimeData.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
             state.doughnutGraph.amountArray[state.doughnutGraph.dataFilterTypes.indexOf(crimeData.weapon)] =
               state.doughnutGraph.amountArray[state.doughnutGraph.dataFilterTypes.indexOf(crimeData.weapon)] + 1
+          }
+        })
+      } else if (sortBy.description != null) {
+        state.doughnutGraph.dataFilter = 'description'
+        state.doughnutGraph.dataFilterTypes = state.crimeDescriptions
+
+        let day = 0
+        for (let date of state.crimeDescriptions) {
+          state.doughnutGraph.amountArray[day] = 0
+          day++
+        }
+
+        state.defaultData.forEach(function (crimeData) {
+          if (moment(crimeData.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
+            state.doughnutGraph.amountArray[state.doughnutGraph.dataFilterTypes.indexOf(crimeData.description)] =
+              state.doughnutGraph.amountArray[state.doughnutGraph.dataFilterTypes.indexOf(crimeData.description)] + 1
           }
         })
       } else {
@@ -554,6 +613,22 @@ export default new Vuex.Store({
           if (moment(crimeData.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
             state.barGraph.amountArray[state.barGraph.dataFilterTypes.indexOf(crimeData.weapon)] =
               state.barGraph.amountArray[state.barGraph.dataFilterTypes.indexOf(crimeData.weapon)] + 1
+          }
+        })
+      } else if (sortBy.description != null) {
+        state.barGraph.dataFilter = 'description'
+        state.barGraph.dataFilterTypes = state.crimeDescriptions
+
+        let day = 0
+        for (let date of state.crimeDescriptions) {
+          state.barGraph.amountArray[day] = 0
+          day++
+        }
+
+        state.defaultData.forEach(function (crimeData) {
+          if (moment(crimeData.crimedate).isBetween(state.crimeframeRange.startDate, state.crimeframeRange.endDate, null, '[]')) {
+            state.barGraph.amountArray[state.barGraph.dataFilterTypes.indexOf(crimeData.description)] =
+              state.barGraph.amountArray[state.barGraph.dataFilterTypes.indexOf(crimeData.description)] + 1
           }
         })
       } else {
