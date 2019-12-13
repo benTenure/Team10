@@ -139,14 +139,21 @@
           <v-card-text style="height: 300px;">
             <v-radio-group v-model="sortFilter" column>
               <v-radio label="Show All Crimes" value="allCrimes"></v-radio>
-              <v-radio label="Show Weapons" value="weaponSort"></v-radio>
-              <v-radio label="Show Crime Codes" value="crimeCodeSort"></v-radio>
-              <v-radio label="Show Locations" value="locationSort"></v-radio>
+              <v-radio label="Sort by Weapons" value="weaponSort"></v-radio>
+              <v-radio label="Sort by Description" value="descriptionSort"></v-radio>
+              <v-radio label="Sort by Crime Codes" value="crimeCodeSort"></v-radio>
+              <v-radio label="Sort by Locations" value="locationSort"></v-radio>
             </v-radio-group>
             <v-select
               v-if="weaponTypeSelector"
               v-model="selectedWeaponType"
               :items="weaponTypes"
+              outline
+            ></v-select>
+            <v-select
+              v-if="descriptionSelector"
+              v-model="descriptionSelected"
+              :items="crimeDescriptions"
               outline
             ></v-select>
             <v-text-field
@@ -236,6 +243,8 @@ export default {
       sortFilter: 'allCrimes',
       dialog: false,
       sortBy: {},
+      descriptionSelector: false,
+      descriptionSelected: null,
       crimecodeSelector: false,
       crimecodeString: null,
       weaponTypeSelector: false,
@@ -270,6 +279,9 @@ export default {
       },
       doughnutGraph () {
           return this.$store.state.doughnutGraph
+      },
+      crimeDescriptions () {
+          return this.$store.state.crimeDescriptions
       }
   },
   watch: {
@@ -283,18 +295,27 @@ export default {
             this.locationTypeSelector = false
             this.weaponTypeSelector = true
             this.crimecodeSelector = false
+            this.descriptionSelector = false
+        } else if (this.sortFilter === 'descriptionSort') {
+            this.locationTypeSelector = false
+            this.weaponTypeSelector = false
+            this.crimecodeSelector = false
+            this.descriptionSelector = true
         } else if (this.sortFilter === 'crimeCodeSort') {
             this.locationTypeSelector = false
             this.weaponTypeSelector = false
             this.crimecodeSelector = true
+            this.descriptionSelector = false
         } else if (this.sortFilter === 'locationSort') {
             this.locationTypeSelector = true
             this.weaponTypeSelector = false
             this.crimecodeSelector = false
+            this.descriptionSelector = false
         } else {
             this.locationTypeSelector = false
             this.weaponTypeSelector = false
             this.crimecodeSelector = false
+            this.descriptionSelector = false
         }
       },
       selectSorting () {
@@ -317,6 +338,7 @@ export default {
           }
           this.sortBy = {
               crimecode: null,
+              description: null,
               weaponType: null,
               address: null,
               inside_outside: null,
@@ -329,6 +351,8 @@ export default {
               this.sortBy.weaponType = this.selectedWeaponType
           } else if (this.sortFilter === 'crimeCodeSort') {
               this.sortBy.crimecode = this.crimecodeString
+          } else if (this.sortFilter === 'descriptionSort') {
+              this.sortBy.description = this.descriptionSelected
           } else if (this.sortFilter === 'locationSort') {
               if (this.locationTypeString === 'Address') {
                   this.sortBy.address = this.locationString
